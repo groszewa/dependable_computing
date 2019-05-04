@@ -1,0 +1,2004 @@
+# ./vl2mv project.v 
+# version: 1.4
+# date:    00:34:21 12/07/2017 (CST)
+.model main 
+# I/O ports
+.outputs Y0
+.inputs C0
+.outputs Y1
+.outputs XC
+.inputs C1
+.outputs Y2
+.inputs C2
+.inputs PAR
+.outputs XE0
+.outputs XE1
+.outputs X0
+.inputs B0
+.outputs X1
+.inputs B1
+.outputs X2
+.inputs B2
+.outputs YE0
+.outputs YC
+.inputs A0
+.outputs YE1
+.inputs A1
+.inputs A2
+.subckt alu alu0 a0=A0  a1=A1  a2=A2  b0=B0  b1=B1  b2=B2  c0=C0  c1=C1  c2=C2  x0=x0  x1=x1  x2=x2  xc=xc  par=PAR  error_out=eo0  
+.subckt alu alu1 a0=A0  a1=A1  a2=A2  b0=B0  b1=B1  b2=B2  c0=C0  c1=C1  c2=C2  x0=y0  x1=y1  x2=y2  xc=yc  par=PAR  error_out=eo1  
+.subckt input_error_detect ied0 a0=A0  a1=A1  a2=A2  b0=B0  b1=B1  b2=B2  par=PAR  c0=C0  c1=C1  c2=C2  is_error=IS_INPUT_ERROR  
+# assign IS_ERROR0  = IS_INPUT_ERROR  | eo0 
+# IS_INPUT_ERROR  | eo0 
+.names IS_INPUT_ERROR eo0 _n1
+.def 1
+0 0 0
+.names _n1 IS_ERROR0$raw_n0
+- =_n1
+# assign IS_ERROR1  = IS_INPUT_ERROR  | eo1 
+# IS_INPUT_ERROR  | eo1 
+.names IS_INPUT_ERROR eo1 _n3
+.def 1
+0 0 0
+.names _n3 IS_ERROR1$raw_n2
+- =_n3
+# assign XE0  = (IS_ERROR0 ) ? IS_ERROR0  : 0
+.names _n5
+0
+# (IS_ERROR0 ) ? IS_ERROR0  : 0
+.names IS_ERROR0 _n5 IS_ERROR0 _n6
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n6 XE0$raw_n4
+- =_n6
+# assign XE1  = (IS_ERROR0 ) ? IS_ERROR0  : 1
+.names _n9
+1
+# (IS_ERROR0 ) ? IS_ERROR0  : 1
+.names IS_ERROR0 _n9 IS_ERROR0 _na
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _na XE1$raw_n8
+- =_na
+# assign YE0  = (IS_ERROR1 ) ? IS_ERROR1  : 0
+.names _nd
+0
+# (IS_ERROR1 ) ? IS_ERROR1  : 0
+.names IS_ERROR1 _nd IS_ERROR1 _ne
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _ne YE0$raw_nc
+- =_ne
+# assign YE1  = (IS_ERROR1 ) ? IS_ERROR1  : 1
+.names _n11
+1
+# (IS_ERROR1 ) ? IS_ERROR1  : 1
+.names IS_ERROR1 _n11 IS_ERROR1 _n12
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n12 YE1$raw_n10
+- =_n12
+# assign X0  = x0 
+.names x0 X0$raw_n14
+- =x0
+# assign X1  = x1 
+.names x1 X1$raw_n15
+- =x1
+# assign X2  = x2 
+.names x2 X2$raw_n16
+- =x2
+# assign XC  = xc 
+.names xc XC$raw_n17
+- =xc
+# assign Y0  = y0 
+.names y0 Y0$raw_n18
+- =y0
+# assign Y1  = y1 
+.names y1 Y1$raw_n19
+- =y1
+# assign Y2  = y2 
+.names y2 Y2$raw_n1a
+- =y2
+# assign YC  = yc 
+.names yc YC$raw_n1b
+- =yc
+# conflict arbitrators
+.names Y0$raw_n18  Y0
+0 0
+1 1
+.names Y1$raw_n19  Y1
+0 0
+1 1
+.names XC$raw_n17  XC
+0 0
+1 1
+.names Y2$raw_n1a  Y2
+0 0
+1 1
+.names XE0$raw_n4  XE0
+0 0
+1 1
+.names XE1$raw_n8  XE1
+0 0
+1 1
+.names X0$raw_n14  X0
+0 0
+1 1
+.names X1$raw_n15  X1
+0 0
+1 1
+.names X2$raw_n16  X2
+0 0
+1 1
+.names IS_ERROR0$raw_n0  IS_ERROR0
+0 0
+1 1
+.names IS_ERROR1$raw_n2  IS_ERROR1
+0 0
+1 1
+.names YE0$raw_nc  YE0
+0 0
+1 1
+.names YC$raw_n1b  YC
+0 0
+1 1
+.names YE1$raw_n10  YE1
+0 0
+1 1
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
+.model alu 
+# I/O ports
+.inputs par
+.inputs a0
+.outputs error_out
+.inputs a1
+.inputs a2
+.outputs xc
+.inputs c0
+.inputs c1
+.inputs c2
+.outputs x0
+.inputs b0
+.outputs x1
+.inputs b1
+.outputs x2
+.inputs b2
+# assign ima_sel0  = c2  & ~c1  & ~c0 
+.names c1 _n1d
+0 1  
+1 0  
+# c2  & ~c1 
+.names c2 _n1d _n1e
+.def 0
+1 1 1
+.names c0 _n1f
+0 1  
+1 0  
+# c2  & ~c1  & ~c0 
+.names _n1e _n1f _n20
+.def 0
+1 1 1
+.names _n20 ima_sel0$raw_n1c
+- =_n20
+# assign ima_sel1  = c2  & ~c1  & ~c0 
+.names c1 _n22
+0 1  
+1 0  
+# c2  & ~c1 
+.names c2 _n22 _n23
+.def 0
+1 1 1
+.names c0 _n24
+0 1  
+1 0  
+# c2  & ~c1  & ~c0 
+.names _n23 _n24 _n25
+.def 0
+1 1 1
+.names _n25 ima_sel1$raw_n21
+- =_n25
+# assign ima_sel2  = c2  & ~c1  & ~c0 
+.names c1 _n27
+0 1  
+1 0  
+# c2  & ~c1 
+.names c2 _n27 _n28
+.def 0
+1 1 1
+.names c0 _n29
+0 1  
+1 0  
+# c2  & ~c1  & ~c0 
+.names _n28 _n29 _n2a
+.def 0
+1 1 1
+.names _n2a ima_sel2$raw_n26
+- =_n2a
+# assign ima_sel  = (ima_sel0  & ima_sel1 ) | (ima_sel0  & ima_sel2 ) | (ima_sel1  & ima_sel2 )
+# ima_sel0  & ima_sel1 
+.names ima_sel0 ima_sel1 _n2c
+.def 0
+1 1 1
+# ima_sel0  & ima_sel2 
+.names ima_sel0 ima_sel2 _n2d
+.def 0
+1 1 1
+# (ima_sel0  & ima_sel1 ) | (ima_sel0  & ima_sel2 )
+.names _n2c _n2d _n2e
+.def 1
+0 0 0
+# ima_sel1  & ima_sel2 
+.names ima_sel1 ima_sel2 _n2f
+.def 0
+1 1 1
+# (ima_sel0  & ima_sel1 ) | (ima_sel0  & ima_sel2 ) | (ima_sel1  & ima_sel2 )
+.names _n2e _n2f _n30
+.def 1
+0 0 0
+.names _n30 ima_sel$raw_n2b
+- =_n30
+# assign imb_sel0  = ~c2  & c1  & ~c0 
+.names c2 _n32
+0 1  
+1 0  
+# ~c2  & c1 
+.names _n32 c1 _n33
+.def 0
+1 1 1
+.names c0 _n34
+0 1  
+1 0  
+# ~c2  & c1  & ~c0 
+.names _n33 _n34 _n35
+.def 0
+1 1 1
+.names _n35 imb_sel0$raw_n31
+- =_n35
+# assign imb_sel1  = ~c2  & c1  & ~c0 
+.names c2 _n37
+0 1  
+1 0  
+# ~c2  & c1 
+.names _n37 c1 _n38
+.def 0
+1 1 1
+.names c0 _n39
+0 1  
+1 0  
+# ~c2  & c1  & ~c0 
+.names _n38 _n39 _n3a
+.def 0
+1 1 1
+.names _n3a imb_sel1$raw_n36
+- =_n3a
+# assign imb_sel2  = ~c2  & c1  & ~c0 
+.names c2 _n3c
+0 1  
+1 0  
+# ~c2  & c1 
+.names _n3c c1 _n3d
+.def 0
+1 1 1
+.names c0 _n3e
+0 1  
+1 0  
+# ~c2  & c1  & ~c0 
+.names _n3d _n3e _n3f
+.def 0
+1 1 1
+.names _n3f imb_sel2$raw_n3b
+- =_n3f
+# assign imb_sel  = (imb_sel0  & imb_sel1 ) | (imb_sel0  & imb_sel2 ) | (imb_sel1  & imb_sel2 )
+# imb_sel0  & imb_sel1 
+.names imb_sel0 imb_sel1 _n41
+.def 0
+1 1 1
+# imb_sel0  & imb_sel2 
+.names imb_sel0 imb_sel2 _n42
+.def 0
+1 1 1
+# (imb_sel0  & imb_sel1 ) | (imb_sel0  & imb_sel2 )
+.names _n41 _n42 _n43
+.def 1
+0 0 0
+# imb_sel1  & imb_sel2 
+.names imb_sel1 imb_sel2 _n44
+.def 0
+1 1 1
+# (imb_sel0  & imb_sel1 ) | (imb_sel0  & imb_sel2 ) | (imb_sel1  & imb_sel2 )
+.names _n43 _n44 _n45
+.def 1
+0 0 0
+.names _n45 imb_sel$raw_n40
+- =_n45
+.names c1 _n46
+0 1  
+1 0  
+# c2  & ~c1 
+.names c2 _n46 _n47
+.def 0
+1 1 1
+.names c0 _n48
+0 1  
+1 0  
+# c2  & ~c1  & ~c0 
+.names _n47 _n48 _n49
+.def 0
+1 1 1
+.subckt inversion_mux ima0 a0=a0  a1=a1  a2=a2  sel=_n49  a_out<0>=adder_in00<0> a_out<1>=adder_in00<1> a_out<2>=adder_in00<2>  
+.names c1 _n4a
+0 1  
+1 0  
+# c2  & ~c1 
+.names c2 _n4a _n4b
+.def 0
+1 1 1
+.names c0 _n4c
+0 1  
+1 0  
+# c2  & ~c1  & ~c0 
+.names _n4b _n4c _n4d
+.def 0
+1 1 1
+.subckt inversion_mux ima1 a0=a0  a1=a1  a2=a2  sel=_n4d  a_out<0>=adder_in01<0> a_out<1>=adder_in01<1> a_out<2>=adder_in01<2>  
+.names c1 _n4e
+0 1  
+1 0  
+# c2  & ~c1 
+.names c2 _n4e _n4f
+.def 0
+1 1 1
+.names c0 _n50
+0 1  
+1 0  
+# c2  & ~c1  & ~c0 
+.names _n4f _n50 _n51
+.def 0
+1 1 1
+.subckt inversion_mux ima2 a0=a0  a1=a1  a2=a2  sel=_n51  a_out<0>=adder_in02<0> a_out<1>=adder_in02<1> a_out<2>=adder_in02<2>  
+# assign adder_in0  = (adder_in00  & adder_in01 ) | (adder_in00  & adder_in02 ) | (adder_in01  & adder_in02 )
+# adder_in00  & adder_in01 
+.names adder_in00<0> adder_in01<0> _n53<0>
+.def 0
+1 1 1
+.names adder_in00<1> adder_in01<1> _n53<1>
+.def 0
+1 1 1
+.names adder_in00<2> adder_in01<2> _n53<2>
+.def 0
+1 1 1
+# adder_in00  & adder_in02 
+.names adder_in00<0> adder_in02<0> _n54<0>
+.def 0
+1 1 1
+.names adder_in00<1> adder_in02<1> _n54<1>
+.def 0
+1 1 1
+.names adder_in00<2> adder_in02<2> _n54<2>
+.def 0
+1 1 1
+# (adder_in00  & adder_in01 ) | (adder_in00  & adder_in02 )
+.names _n53<0> _n54<0> _n55<0>
+.def 1
+0 0 0
+.names _n53<1> _n54<1> _n55<1>
+.def 1
+0 0 0
+.names _n53<2> _n54<2> _n55<2>
+.def 1
+0 0 0
+# adder_in01  & adder_in02 
+.names adder_in01<0> adder_in02<0> _n56<0>
+.def 0
+1 1 1
+.names adder_in01<1> adder_in02<1> _n56<1>
+.def 0
+1 1 1
+.names adder_in01<2> adder_in02<2> _n56<2>
+.def 0
+1 1 1
+# (adder_in00  & adder_in01 ) | (adder_in00  & adder_in02 ) | (adder_in01  & adder_in02 )
+.names _n55<0> _n56<0> _n57<0>
+.def 1
+0 0 0
+.names _n55<1> _n56<1> _n57<1>
+.def 1
+0 0 0
+.names _n55<2> _n56<2> _n57<2>
+.def 1
+0 0 0
+.names _n57<0> adder_in0$raw_n52<0>
+- =_n57<0>
+.names _n57<1> adder_in0$raw_n52<1>
+- =_n57<1>
+.names _n57<2> adder_in0$raw_n52<2>
+- =_n57<2>
+.names c2 _n58
+0 1  
+1 0  
+# ~c2  & c1 
+.names _n58 c1 _n59
+.def 0
+1 1 1
+.names c0 _n5a
+0 1  
+1 0  
+# ~c2  & c1  & ~c0 
+.names _n59 _n5a _n5b
+.def 0
+1 1 1
+.subckt inversion_mux imb0 a0=b0  a1=b1  a2=b2  sel=_n5b  a_out<0>=adder_in10<0> a_out<1>=adder_in10<1> a_out<2>=adder_in10<2>  
+.names c2 _n5c
+0 1  
+1 0  
+# ~c2  & c1 
+.names _n5c c1 _n5d
+.def 0
+1 1 1
+.names c0 _n5e
+0 1  
+1 0  
+# ~c2  & c1  & ~c0 
+.names _n5d _n5e _n5f
+.def 0
+1 1 1
+.subckt inversion_mux imb1 a0=b0  a1=b1  a2=b2  sel=_n5f  a_out<0>=adder_in11<0> a_out<1>=adder_in11<1> a_out<2>=adder_in11<2>  
+.names c2 _n60
+0 1  
+1 0  
+# ~c2  & c1 
+.names _n60 c1 _n61
+.def 0
+1 1 1
+.names c0 _n62
+0 1  
+1 0  
+# ~c2  & c1  & ~c0 
+.names _n61 _n62 _n63
+.def 0
+1 1 1
+.subckt inversion_mux imb2 a0=b0  a1=b1  a2=b2  sel=_n63  a_out<0>=adder_in12<0> a_out<1>=adder_in12<1> a_out<2>=adder_in12<2>  
+# assign adder_in1  = (adder_in10  & adder_in11 ) | (adder_in10  & adder_in12 ) | (adder_in11  & adder_in12 )
+# adder_in10  & adder_in11 
+.names adder_in10<0> adder_in11<0> _n65<0>
+.def 0
+1 1 1
+.names adder_in10<1> adder_in11<1> _n65<1>
+.def 0
+1 1 1
+.names adder_in10<2> adder_in11<2> _n65<2>
+.def 0
+1 1 1
+# adder_in10  & adder_in12 
+.names adder_in10<0> adder_in12<0> _n66<0>
+.def 0
+1 1 1
+.names adder_in10<1> adder_in12<1> _n66<1>
+.def 0
+1 1 1
+.names adder_in10<2> adder_in12<2> _n66<2>
+.def 0
+1 1 1
+# (adder_in10  & adder_in11 ) | (adder_in10  & adder_in12 )
+.names _n65<0> _n66<0> _n67<0>
+.def 1
+0 0 0
+.names _n65<1> _n66<1> _n67<1>
+.def 1
+0 0 0
+.names _n65<2> _n66<2> _n67<2>
+.def 1
+0 0 0
+# adder_in11  & adder_in12 
+.names adder_in11<0> adder_in12<0> _n68<0>
+.def 0
+1 1 1
+.names adder_in11<1> adder_in12<1> _n68<1>
+.def 0
+1 1 1
+.names adder_in11<2> adder_in12<2> _n68<2>
+.def 0
+1 1 1
+# (adder_in10  & adder_in11 ) | (adder_in10  & adder_in12 ) | (adder_in11  & adder_in12 )
+.names _n67<0> _n68<0> _n69<0>
+.def 1
+0 0 0
+.names _n67<1> _n68<1> _n69<1>
+.def 1
+0 0 0
+.names _n67<2> _n68<2> _n69<2>
+.def 1
+0 0 0
+.names _n69<0> adder_in1$raw_n64<0>
+- =_n69<0>
+.names _n69<1> adder_in1$raw_n64<1>
+- =_n69<1>
+.names _n69<2> adder_in1$raw_n64<2>
+- =_n69<2>
+# assign sub_sel0  = ((!c0 ) & (c1 ) & (!c2 )) | ((!c0 ) & (!c1 ) & (c2 ))
+.names c0 _n6b
+0 1  
+1 0  
+# (!c0 ) & (c1 )
+.names _n6b c1 _n6c
+.def 0
+1 1 1
+.names c2 _n6d
+0 1  
+1 0  
+# (!c0 ) & (c1 ) & (!c2 )
+.names _n6c _n6d _n6e
+.def 0
+1 1 1
+.names c0 _n6f
+0 1  
+1 0  
+.names c1 _n70
+0 1  
+1 0  
+# (!c0 ) & (!c1 )
+.names _n6f _n70 _n71
+.def 0
+1 1 1
+# (!c0 ) & (!c1 ) & (c2 )
+.names _n71 c2 _n72
+.def 0
+1 1 1
+# ((!c0 ) & (c1 ) & (!c2 )) | ((!c0 ) & (!c1 ) & (c2 ))
+.names _n6e _n72 _n73
+.def 1
+0 0 0
+.names _n73 sub_sel0$raw_n6a
+- =_n73
+# assign sub_sel1  = ((c1 ) & (!c0 ) & (!c2 )) | ((!c0 ) & (!c1 ) & (c2 ))
+.names c0 _n75
+0 1  
+1 0  
+# (c1 ) & (!c0 )
+.names c1 _n75 _n76
+.def 0
+1 1 1
+.names c2 _n77
+0 1  
+1 0  
+# (c1 ) & (!c0 ) & (!c2 )
+.names _n76 _n77 _n78
+.def 0
+1 1 1
+.names c0 _n79
+0 1  
+1 0  
+.names c1 _n7a
+0 1  
+1 0  
+# (!c0 ) & (!c1 )
+.names _n79 _n7a _n7b
+.def 0
+1 1 1
+# (!c0 ) & (!c1 ) & (c2 )
+.names _n7b c2 _n7c
+.def 0
+1 1 1
+# ((c1 ) & (!c0 ) & (!c2 )) | ((!c0 ) & (!c1 ) & (c2 ))
+.names _n78 _n7c _n7d
+.def 1
+0 0 0
+.names _n7d sub_sel1$raw_n74
+- =_n7d
+# assign sub_sel2  = ((!c0 ) & (!c2 ) & (c1 )) | ((!c0 ) & (!c1 ) & (c2 ))
+.names c0 _n7f
+0 1  
+1 0  
+.names c2 _n80
+0 1  
+1 0  
+# (!c0 ) & (!c2 )
+.names _n7f _n80 _n81
+.def 0
+1 1 1
+# (!c0 ) & (!c2 ) & (c1 )
+.names _n81 c1 _n82
+.def 0
+1 1 1
+.names c0 _n83
+0 1  
+1 0  
+.names c1 _n84
+0 1  
+1 0  
+# (!c0 ) & (!c1 )
+.names _n83 _n84 _n85
+.def 0
+1 1 1
+# (!c0 ) & (!c1 ) & (c2 )
+.names _n85 c2 _n86
+.def 0
+1 1 1
+# ((!c0 ) & (!c2 ) & (c1 )) | ((!c0 ) & (!c1 ) & (c2 ))
+.names _n82 _n86 _n87
+.def 1
+0 0 0
+.names _n87 sub_sel2$raw_n7e
+- =_n87
+# assign sub_sel  = (sub_sel0  & sub_sel1 ) | (sub_sel0  & sub_sel2 ) | (sub_sel1  & sub_sel2 )
+# sub_sel0  & sub_sel1 
+.names sub_sel0 sub_sel1 _n89
+.def 0
+1 1 1
+# sub_sel0  & sub_sel2 
+.names sub_sel0 sub_sel2 _n8a
+.def 0
+1 1 1
+# (sub_sel0  & sub_sel1 ) | (sub_sel0  & sub_sel2 )
+.names _n89 _n8a _n8b
+.def 1
+0 0 0
+# sub_sel1  & sub_sel2 
+.names sub_sel1 sub_sel2 _n8c
+.def 0
+1 1 1
+# (sub_sel0  & sub_sel1 ) | (sub_sel0  & sub_sel2 ) | (sub_sel1  & sub_sel2 )
+.names _n8b _n8c _n8d
+.def 1
+0 0 0
+.names _n8d sub_sel$raw_n88
+- =_n8d
+.subckt rc rc0 a<0>=adder_in0<0> a<1>=adder_in0<1> a<2>=adder_in0<2>  b<0>=adder_in1<0> b<1>=adder_in1<1> b<2>=adder_in1<2>  cin=sub_sel  s<0>=adder_out<0> s<1>=adder_out<1> s<2>=adder_out<2>  cout=xc  pin=par  p_pred=par_pred  
+# assign par_check  = adder_out [0] ^ adder_out [1] ^ (adder_out [2])
+# adder_out [0] ^ adder_out [1]
+.names adder_out<0> adder_out<1> _n8f<0>
+.def 0
+0 1 1
+1 0 1
+# adder_out [0] ^ adder_out [1] ^ (adder_out [2])
+.names _n8f<0> adder_out<2> _n90<0>
+.def 0
+0 1 1
+1 0 1
+.names _n90<0> par_check$raw_n8e
+- =_n90<0>
+# assign error_out  = par_check  ^ par_pred 
+# par_check  ^ par_pred 
+.names par_check par_pred _n92
+.def 0
+0 1 1
+1 0 1
+.names _n92 error_out$raw_n91
+- =_n92
+# assign x0  = adder_out [0]
+.names adder_out<0> x0$raw_n93
+- =adder_out<0>
+# assign x1  = adder_out [1]
+.names adder_out<1> x1$raw_n94
+- =adder_out<1>
+# assign x2  = adder_out [2]
+.names adder_out<2> x2$raw_n95
+- =adder_out<2>
+# conflict arbitrators
+.names ima_sel$raw_n2b  ima_sel
+0 0
+1 1
+.names error_out$raw_n91  error_out
+0 0
+1 1
+.names ima_sel2$raw_n26  ima_sel2
+0 0
+1 1
+.names imb_sel$raw_n40  imb_sel
+0 0
+1 1
+.names sub_sel$raw_n88  sub_sel
+0 0
+1 1
+.names ima_sel1$raw_n21  ima_sel1
+0 0
+1 1
+.names sub_sel0$raw_n6a  sub_sel0
+0 0
+1 1
+.names adder_in0$raw_n52<0>  adder_in0<0>
+- =adder_in0$raw_n52<0>
+.names adder_in0$raw_n52<1>  adder_in0<1>
+- =adder_in0$raw_n52<1>
+.names adder_in0$raw_n52<2>  adder_in0<2>
+- =adder_in0$raw_n52<2>
+.names ima_sel0$raw_n1c  ima_sel0
+0 0
+1 1
+.names sub_sel1$raw_n74  sub_sel1
+0 0
+1 1
+.names adder_in1$raw_n64<0>  adder_in1<0>
+- =adder_in1$raw_n64<0>
+.names adder_in1$raw_n64<1>  adder_in1<1>
+- =adder_in1$raw_n64<1>
+.names adder_in1$raw_n64<2>  adder_in1<2>
+- =adder_in1$raw_n64<2>
+.names sub_sel2$raw_n7e  sub_sel2
+0 0
+1 1
+.names par_check$raw_n8e  par_check
+0 0
+1 1
+.names imb_sel2$raw_n3b  imb_sel2
+0 0
+1 1
+.names x0$raw_n93  x0
+0 0
+1 1
+.names imb_sel1$raw_n36  imb_sel1
+0 0
+1 1
+.names x1$raw_n94  x1
+0 0
+1 1
+.names imb_sel0$raw_n31  imb_sel0
+0 0
+1 1
+.names x2$raw_n95  x2
+0 0
+1 1
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
+.model input_error_detect 
+# I/O ports
+.inputs par
+.inputs a0
+.inputs a1
+.outputs is_error
+.inputs a2
+.inputs c0
+.inputs c1
+.inputs c2
+.inputs b0
+.inputs b1
+.inputs b2
+.subckt odd_parity_detect opd0 a0=a0  a1=a1  a2=a2  b0=b0  b1=b1  b2=b2  par=par  is_odd_parity=is_odd_parity0  
+.subckt odd_parity_detect opd1 a0=a0  a1=a1  a2=a2  b0=b0  b1=b1  b2=b2  par=par  is_odd_parity=is_odd_parity1  
+.subckt odd_parity_detect opd2 a0=a0  a1=a1  a2=a2  b0=b0  b1=b1  b2=b2  par=par  is_odd_parity=is_odd_parity2  
+.subckt onehot_detect ohd0 c0=c0  c1=c1  c2=c2  is_onehot=is_onehot0  
+.subckt onehot_detect ohd1 c0=c0  c1=c1  c2=c2  is_onehot=is_onehot1  
+.subckt onehot_detect ohd2 c0=c0  c1=c1  c2=c2  is_onehot=is_onehot2  
+# assign is_onehot_tmr  = (is_onehot0  & is_onehot1 ) | (is_onehot0  & is_onehot2 ) | (is_onehot1  & is_onehot2 )
+# is_onehot0  & is_onehot1 
+.names is_onehot0 is_onehot1 _n97
+.def 0
+1 1 1
+# is_onehot0  & is_onehot2 
+.names is_onehot0 is_onehot2 _n98
+.def 0
+1 1 1
+# (is_onehot0  & is_onehot1 ) | (is_onehot0  & is_onehot2 )
+.names _n97 _n98 _n99
+.def 1
+0 0 0
+# is_onehot1  & is_onehot2 
+.names is_onehot1 is_onehot2 _n9a
+.def 0
+1 1 1
+# (is_onehot0  & is_onehot1 ) | (is_onehot0  & is_onehot2 ) | (is_onehot1  & is_onehot2 )
+.names _n99 _n9a _n9b
+.def 1
+0 0 0
+.names _n9b is_onehot_tmr$raw_n96
+- =_n9b
+# assign is_odd_parity_tmr  = (is_odd_parity0  & is_odd_parity1 ) | (is_odd_parity0  & is_odd_parity2 ) | (is_odd_parity1  & is_odd_parity2 )
+# is_odd_parity0  & is_odd_parity1 
+.names is_odd_parity0 is_odd_parity1 _n9d
+.def 0
+1 1 1
+# is_odd_parity0  & is_odd_parity2 
+.names is_odd_parity0 is_odd_parity2 _n9e
+.def 0
+1 1 1
+# (is_odd_parity0  & is_odd_parity1 ) | (is_odd_parity0  & is_odd_parity2 )
+.names _n9d _n9e _n9f
+.def 1
+0 0 0
+# is_odd_parity1  & is_odd_parity2 
+.names is_odd_parity1 is_odd_parity2 _na0
+.def 0
+1 1 1
+# (is_odd_parity0  & is_odd_parity1 ) | (is_odd_parity0  & is_odd_parity2 ) | (is_odd_parity1  & is_odd_parity2 )
+.names _n9f _na0 _na1
+.def 1
+0 0 0
+.names _na1 is_odd_parity_tmr$raw_n9c
+- =_na1
+# assign is_error  = ~(is_onehot_tmr  & is_odd_parity_tmr )
+# is_onehot_tmr  & is_odd_parity_tmr 
+.names is_onehot_tmr is_odd_parity_tmr _na3
+.def 0
+1 1 1
+.names _na3 _na4
+0 1  
+1 0  
+.names _na4 is_error$raw_na2
+- =_na4
+# conflict arbitrators
+.names is_error$raw_na2  is_error
+0 0
+1 1
+.names is_odd_parity_tmr$raw_n9c  is_odd_parity_tmr
+0 0
+1 1
+.names is_onehot_tmr$raw_n96  is_onehot_tmr
+0 0
+1 1
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
+.model rc 
+# I/O ports
+.outputs p_pred
+.outputs s<0> s<1> s<2> 
+.inputs pin
+.inputs cin
+.inputs a<0> a<1> a<2> 
+.outputs cout
+.inputs b<0> b<1> b<2> 
+.subckt one_bit_adder a1 a=a<0>  b=b<0>  cin0=cin  cin1=cin  cin2=cin  s=s<0>  cout0=a1_cout0  cout1=a1_cout1  cout2=a1_cout2  
+# assign a2_cin0  = (a1_cout0  & a1_cout1 ) | (a1_cout0  & a1_cout2 ) | (a1_cout1  & a1_cout2 )
+# a1_cout0  & a1_cout1 
+.names a1_cout0 a1_cout1 _na6
+.def 0
+1 1 1
+# a1_cout0  & a1_cout2 
+.names a1_cout0 a1_cout2 _na7
+.def 0
+1 1 1
+# (a1_cout0  & a1_cout1 ) | (a1_cout0  & a1_cout2 )
+.names _na6 _na7 _na8
+.def 1
+0 0 0
+# a1_cout1  & a1_cout2 
+.names a1_cout1 a1_cout2 _na9
+.def 0
+1 1 1
+# (a1_cout0  & a1_cout1 ) | (a1_cout0  & a1_cout2 ) | (a1_cout1  & a1_cout2 )
+.names _na8 _na9 _naa
+.def 1
+0 0 0
+.names _naa a2_cin0$raw_na5
+- =_naa
+# assign a2_cin1  = (a1_cout0  & a1_cout1 ) | (a1_cout0  & a1_cout2 ) | (a1_cout1  & a1_cout2 )
+# a1_cout0  & a1_cout1 
+.names a1_cout0 a1_cout1 _nac
+.def 0
+1 1 1
+# a1_cout0  & a1_cout2 
+.names a1_cout0 a1_cout2 _nad
+.def 0
+1 1 1
+# (a1_cout0  & a1_cout1 ) | (a1_cout0  & a1_cout2 )
+.names _nac _nad _nae
+.def 1
+0 0 0
+# a1_cout1  & a1_cout2 
+.names a1_cout1 a1_cout2 _naf
+.def 0
+1 1 1
+# (a1_cout0  & a1_cout1 ) | (a1_cout0  & a1_cout2 ) | (a1_cout1  & a1_cout2 )
+.names _nae _naf _nb0
+.def 1
+0 0 0
+.names _nb0 a2_cin1$raw_nab
+- =_nb0
+# assign a2_cin2  = (a1_cout0  & a1_cout1 ) | (a1_cout0  & a1_cout2 ) | (a1_cout1  & a1_cout2 )
+# a1_cout0  & a1_cout1 
+.names a1_cout0 a1_cout1 _nb2
+.def 0
+1 1 1
+# a1_cout0  & a1_cout2 
+.names a1_cout0 a1_cout2 _nb3
+.def 0
+1 1 1
+# (a1_cout0  & a1_cout1 ) | (a1_cout0  & a1_cout2 )
+.names _nb2 _nb3 _nb4
+.def 1
+0 0 0
+# a1_cout1  & a1_cout2 
+.names a1_cout1 a1_cout2 _nb5
+.def 0
+1 1 1
+# (a1_cout0  & a1_cout1 ) | (a1_cout0  & a1_cout2 ) | (a1_cout1  & a1_cout2 )
+.names _nb4 _nb5 _nb6
+.def 1
+0 0 0
+.names _nb6 a2_cin2$raw_nb1
+- =_nb6
+.subckt one_bit_adder a2 a=a<1>  b=b<1>  cin0=a2_cin0  cin1=a2_cin1  cin2=a2_cin2  s=s<1>  cout0=a2_cout0  cout1=a2_cout1  cout2=a2_cout2  
+# assign a3_cin0  = (a2_cout0  & a2_cout1 ) | (a2_cout0  & a2_cout2 ) | (a2_cout1  & a2_cout2 )
+# a2_cout0  & a2_cout1 
+.names a2_cout0 a2_cout1 _nb8
+.def 0
+1 1 1
+# a2_cout0  & a2_cout2 
+.names a2_cout0 a2_cout2 _nb9
+.def 0
+1 1 1
+# (a2_cout0  & a2_cout1 ) | (a2_cout0  & a2_cout2 )
+.names _nb8 _nb9 _nba
+.def 1
+0 0 0
+# a2_cout1  & a2_cout2 
+.names a2_cout1 a2_cout2 _nbb
+.def 0
+1 1 1
+# (a2_cout0  & a2_cout1 ) | (a2_cout0  & a2_cout2 ) | (a2_cout1  & a2_cout2 )
+.names _nba _nbb _nbc
+.def 1
+0 0 0
+.names _nbc a3_cin0$raw_nb7
+- =_nbc
+# assign a3_cin1  = (a2_cout0  & a2_cout1 ) | (a2_cout0  & a2_cout2 ) | (a2_cout1  & a2_cout2 )
+# a2_cout0  & a2_cout1 
+.names a2_cout0 a2_cout1 _nbe
+.def 0
+1 1 1
+# a2_cout0  & a2_cout2 
+.names a2_cout0 a2_cout2 _nbf
+.def 0
+1 1 1
+# (a2_cout0  & a2_cout1 ) | (a2_cout0  & a2_cout2 )
+.names _nbe _nbf _nc0
+.def 1
+0 0 0
+# a2_cout1  & a2_cout2 
+.names a2_cout1 a2_cout2 _nc1
+.def 0
+1 1 1
+# (a2_cout0  & a2_cout1 ) | (a2_cout0  & a2_cout2 ) | (a2_cout1  & a2_cout2 )
+.names _nc0 _nc1 _nc2
+.def 1
+0 0 0
+.names _nc2 a3_cin1$raw_nbd
+- =_nc2
+# assign a3_cin2  = (a2_cout0  & a2_cout1 ) | (a2_cout0  & a2_cout2 ) | (a2_cout1  & a2_cout2 )
+# a2_cout0  & a2_cout1 
+.names a2_cout0 a2_cout1 _nc4
+.def 0
+1 1 1
+# a2_cout0  & a2_cout2 
+.names a2_cout0 a2_cout2 _nc5
+.def 0
+1 1 1
+# (a2_cout0  & a2_cout1 ) | (a2_cout0  & a2_cout2 )
+.names _nc4 _nc5 _nc6
+.def 1
+0 0 0
+# a2_cout1  & a2_cout2 
+.names a2_cout1 a2_cout2 _nc7
+.def 0
+1 1 1
+# (a2_cout0  & a2_cout1 ) | (a2_cout0  & a2_cout2 ) | (a2_cout1  & a2_cout2 )
+.names _nc6 _nc7 _nc8
+.def 1
+0 0 0
+.names _nc8 a3_cin2$raw_nc3
+- =_nc8
+.subckt one_bit_adder a3 a=a<2>  b=b<2>  cin0=a3_cin0  cin1=a3_cin1  cin2=a3_cin2  s=s<2>  cout0=a3_cout0  cout1=a3_cout1  cout2=a3_cout2  
+# assign cout_wire  = (a3_cout0  & a3_cout1 ) | (a3_cout0  & a3_cout2 ) | (a3_cout1  & a3_cout2 )
+# a3_cout0  & a3_cout1 
+.names a3_cout0 a3_cout1 _nca
+.def 0
+1 1 1
+# a3_cout0  & a3_cout2 
+.names a3_cout0 a3_cout2 _ncb
+.def 0
+1 1 1
+# (a3_cout0  & a3_cout1 ) | (a3_cout0  & a3_cout2 )
+.names _nca _ncb _ncc
+.def 1
+0 0 0
+# a3_cout1  & a3_cout2 
+.names a3_cout1 a3_cout2 _ncd
+.def 0
+1 1 1
+# (a3_cout0  & a3_cout1 ) | (a3_cout0  & a3_cout2 ) | (a3_cout1  & a3_cout2 )
+.names _ncc _ncd _nce
+.def 1
+0 0 0
+.names _nce cout_wire$raw_nc9
+- =_nce
+# assign p_pred  = ~pin  ^ a2_cin0  ^ a3_cin1 
+.names pin _nd0
+0 1  
+1 0  
+# ~pin  ^ a2_cin0 
+.names _nd0 a2_cin0 _nd1
+.def 0
+0 1 1
+1 0 1
+# ~pin  ^ a2_cin0  ^ a3_cin1 
+.names _nd1 a3_cin1 _nd2
+.def 0
+0 1 1
+1 0 1
+.names _nd2 p_pred$raw_ncf
+- =_nd2
+# assign cout  = cout_wire 
+.names cout_wire cout$raw_nd3
+- =cout_wire
+# conflict arbitrators
+.names a2_cin2$raw_nb1  a2_cin2
+0 0
+1 1
+.names cout_wire$raw_nc9  cout_wire
+0 0
+1 1
+.names a2_cin1$raw_nab  a2_cin1
+0 0
+1 1
+.names p_pred$raw_ncf  p_pred
+0 0
+1 1
+.names a2_cin0$raw_na5  a2_cin0
+0 0
+1 1
+.names a3_cin0$raw_nb7  a3_cin0
+0 0
+1 1
+.names a3_cin1$raw_nbd  a3_cin1
+0 0
+1 1
+.names a3_cin2$raw_nc3  a3_cin2
+0 0
+1 1
+.names cout$raw_nd3  cout
+0 0
+1 1
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
+.model one_bit_adder 
+# I/O ports
+.inputs cin2
+.inputs cin1
+.inputs cin0
+.outputs s
+.outputs cout2
+.outputs cout1
+.outputs cout0
+.inputs a
+.inputs b
+# assign a0  = a 
+.names a a0$raw_nd4
+- =a
+# assign a1  = a 
+.names a a1$raw_nd5
+- =a
+# assign a2  = a 
+.names a a2$raw_nd6
+- =a
+# assign b0  = b 
+.names b b0$raw_nd7
+- =b
+# assign b1  = b 
+.names b b1$raw_nd8
+- =b
+# assign b2  = b 
+.names b b2$raw_nd9
+- =b
+# assign s0  = a0  ^ b0  ^ cin0 
+# a0  ^ b0 
+.names a0 b0 _ndb
+.def 0
+0 1 1
+1 0 1
+# a0  ^ b0  ^ cin0 
+.names _ndb cin0 _ndc
+.def 0
+0 1 1
+1 0 1
+.names _ndc s0$raw_nda
+- =_ndc
+# assign cout0  = (a0  & b0 ) | (b0  & cin0 ) | (cin0  & a0 )
+# a0  & b0 
+.names a0 b0 _nde
+.def 0
+1 1 1
+# b0  & cin0 
+.names b0 cin0 _ndf
+.def 0
+1 1 1
+# (a0  & b0 ) | (b0  & cin0 )
+.names _nde _ndf _ne0
+.def 1
+0 0 0
+# cin0  & a0 
+.names cin0 a0 _ne1
+.def 0
+1 1 1
+# (a0  & b0 ) | (b0  & cin0 ) | (cin0  & a0 )
+.names _ne0 _ne1 _ne2
+.def 1
+0 0 0
+.names _ne2 cout0$raw_ndd
+- =_ne2
+# assign s1  = a1  ^ b0  ^ cin1 
+# a1  ^ b0 
+.names a1 b0 _ne4
+.def 0
+0 1 1
+1 0 1
+# a1  ^ b0  ^ cin1 
+.names _ne4 cin1 _ne5
+.def 0
+0 1 1
+1 0 1
+.names _ne5 s1$raw_ne3
+- =_ne5
+# assign cout1  = (a1  & b1 ) | (b1  & cin1 ) | (cin1  & a1 )
+# a1  & b1 
+.names a1 b1 _ne7
+.def 0
+1 1 1
+# b1  & cin1 
+.names b1 cin1 _ne8
+.def 0
+1 1 1
+# (a1  & b1 ) | (b1  & cin1 )
+.names _ne7 _ne8 _ne9
+.def 1
+0 0 0
+# cin1  & a1 
+.names cin1 a1 _nea
+.def 0
+1 1 1
+# (a1  & b1 ) | (b1  & cin1 ) | (cin1  & a1 )
+.names _ne9 _nea _neb
+.def 1
+0 0 0
+.names _neb cout1$raw_ne6
+- =_neb
+# assign s2  = a2  ^ b2  ^ cin2 
+# a2  ^ b2 
+.names a2 b2 _ned
+.def 0
+0 1 1
+1 0 1
+# a2  ^ b2  ^ cin2 
+.names _ned cin2 _nee
+.def 0
+0 1 1
+1 0 1
+.names _nee s2$raw_nec
+- =_nee
+# assign cout2  = (a2  & b2 ) | (b2  & cin2 ) | (cin2  & a2 )
+# a2  & b2 
+.names a2 b2 _nf0
+.def 0
+1 1 1
+# b2  & cin2 
+.names b2 cin2 _nf1
+.def 0
+1 1 1
+# (a2  & b2 ) | (b2  & cin2 )
+.names _nf0 _nf1 _nf2
+.def 1
+0 0 0
+# cin2  & a2 
+.names cin2 a2 _nf3
+.def 0
+1 1 1
+# (a2  & b2 ) | (b2  & cin2 ) | (cin2  & a2 )
+.names _nf2 _nf3 _nf4
+.def 1
+0 0 0
+.names _nf4 cout2$raw_nef
+- =_nf4
+# assign s  = (s0  & s1 ) | (s0  & s2 ) | (s1  & s2 )
+# s0  & s1 
+.names s0 s1 _nf6
+.def 0
+1 1 1
+# s0  & s2 
+.names s0 s2 _nf7
+.def 0
+1 1 1
+# (s0  & s1 ) | (s0  & s2 )
+.names _nf6 _nf7 _nf8
+.def 1
+0 0 0
+# s1  & s2 
+.names s1 s2 _nf9
+.def 0
+1 1 1
+# (s0  & s1 ) | (s0  & s2 ) | (s1  & s2 )
+.names _nf8 _nf9 _nfa
+.def 1
+0 0 0
+.names _nfa s$raw_nf5
+- =_nfa
+# conflict arbitrators
+.names a0$raw_nd4  a0
+0 0
+1 1
+.names a1$raw_nd5  a1
+0 0
+1 1
+.names a2$raw_nd6  a2
+0 0
+1 1
+.names s$raw_nf5  s
+0 0
+1 1
+.names s0$raw_nda  s0
+0 0
+1 1
+.names cout2$raw_nef  cout2
+0 0
+1 1
+.names s1$raw_ne3  s1
+0 0
+1 1
+.names cout1$raw_ne6  cout1
+0 0
+1 1
+.names s2$raw_nec  s2
+0 0
+1 1
+.names b0$raw_nd7  b0
+0 0
+1 1
+.names cout0$raw_ndd  cout0
+0 0
+1 1
+.names b1$raw_nd8  b1
+0 0
+1 1
+.names b2$raw_nd9  b2
+0 0
+1 1
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
+.model onehot_detect 
+# I/O ports
+.outputs is_onehot
+.inputs c0
+.inputs c1
+.inputs c2
+# assign c0_hot  = c0  & ~(c1  | c2 )
+# c1  | c2 
+.names c1 c2 _nfc
+.def 1
+0 0 0
+.names _nfc _nfd
+0 1  
+1 0  
+# c0  & ~(c1  | c2 )
+.names c0 _nfd _nfe
+.def 0
+1 1 1
+.names _nfe c0_hot$raw_nfb
+- =_nfe
+# assign c1_hot  = c1  & ~(c0  | c2 )
+# c0  | c2 
+.names c0 c2 _n100
+.def 1
+0 0 0
+.names _n100 _n101
+0 1  
+1 0  
+# c1  & ~(c0  | c2 )
+.names c1 _n101 _n102
+.def 0
+1 1 1
+.names _n102 c1_hot$raw_nff
+- =_n102
+# assign c2_hot  = c2  & ~(c0  | c1 )
+# c0  | c1 
+.names c0 c1 _n104
+.def 1
+0 0 0
+.names _n104 _n105
+0 1  
+1 0  
+# c2  & ~(c0  | c1 )
+.names c2 _n105 _n106
+.def 0
+1 1 1
+.names _n106 c2_hot$raw_n103
+- =_n106
+# assign is_onehot  = c0_hot  | c1_hot  | c2_hot 
+# c0_hot  | c1_hot 
+.names c0_hot c1_hot _n108
+.def 1
+0 0 0
+# c0_hot  | c1_hot  | c2_hot 
+.names _n108 c2_hot _n109
+.def 1
+0 0 0
+.names _n109 is_onehot$raw_n107
+- =_n109
+# conflict arbitrators
+.names is_onehot$raw_n107  is_onehot
+0 0
+1 1
+.names c2_hot$raw_n103  c2_hot
+0 0
+1 1
+.names c0_hot$raw_nfb  c0_hot
+0 0
+1 1
+.names c1_hot$raw_nff  c1_hot
+0 0
+1 1
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
+.model odd_parity_detect 
+# I/O ports
+.outputs is_odd_parity
+.inputs par
+.inputs a0
+.inputs a1
+.inputs a2
+.inputs b0
+.inputs b1
+.inputs b2
+# assign is_odd_parity  = a0  ^ a1  ^ a2  ^ b0  ^ b1  ^ b2  ^ par 
+# a0  ^ a1 
+.names a0 a1 _n10b
+.def 0
+0 1 1
+1 0 1
+# a0  ^ a1  ^ a2 
+.names _n10b a2 _n10c
+.def 0
+0 1 1
+1 0 1
+# a0  ^ a1  ^ a2  ^ b0 
+.names _n10c b0 _n10d
+.def 0
+0 1 1
+1 0 1
+# a0  ^ a1  ^ a2  ^ b0  ^ b1 
+.names _n10d b1 _n10e
+.def 0
+0 1 1
+1 0 1
+# a0  ^ a1  ^ a2  ^ b0  ^ b1  ^ b2 
+.names _n10e b2 _n10f
+.def 0
+0 1 1
+1 0 1
+# a0  ^ a1  ^ a2  ^ b0  ^ b1  ^ b2  ^ par 
+.names _n10f par _n110
+.def 0
+0 1 1
+1 0 1
+.names _n110 is_odd_parity$raw_n10a
+- =_n110
+# conflict arbitrators
+.names is_odd_parity$raw_n10a  is_odd_parity
+0 0
+1 1
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
+.model inversion_mux 
+# I/O ports
+.inputs a0
+.inputs a1
+.inputs a2
+.outputs a_out<0> a_out<1> a_out<2> 
+.inputs sel
+# assign a_bus [0] = a0 
+.names a0 a_bus$raw_n111<0>
+- =a0
+.names _n112
+0
+# assign a_bus [1] = a1 
+.names a1 a_bus$raw_n113<1>
+- =a1
+.names _n114
+0
+# assign a_bus [2] = a2 
+.names a2 a_bus$raw_n115<2>
+- =a2
+.names _n116
+0
+# assign a_inv_bus  = ~a_bus 
+.names a_bus<0> _n118<0>
+0 1  
+1 0  
+.names a_bus<1> _n118<1>
+0 1  
+1 0  
+.names a_bus<2> _n118<2>
+0 1  
+1 0  
+.names _n118<0> a_inv_bus$raw_n117<0>
+- =_n118<0>
+.names _n118<1> a_inv_bus$raw_n117<1>
+- =_n118<1>
+.names _n118<2> a_inv_bus$raw_n117<2>
+- =_n118<2>
+# assign a_out  = (sel  == 'b1) ? a_inv_bus  : (sel  == 'b0) ? a_bus  : 'b000z
+.names _n11b
+1
+# sel  == 'b1
+.names sel _n11b _n11c
+.def 0
+0 1 1
+1 0 1
+.names _n11c _n11a
+0 1  
+1 0  
+.names _n11f
+0
+# sel  == 'b0
+.names sel _n11f _n120
+.def 0
+0 1 1
+1 0 1
+.names _n120 _n11e
+0 1  
+1 0  
+.names _n122<0>
+0
+.names _n122<1>
+0
+.names _n122<2>
+0
+.names _n122<3>
+0
+# (sel  == 'b0) ? a_bus  : 'b000z
+.names _n122<0> _n124<0>
+- =_n122<0>
+.names _n122<1> _n124<1>
+- =_n122<1>
+.names _n122<2> _n124<2>
+- =_n122<2>
+.names a_bus<0> _n124<0> _n11e _n123<0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names a_bus<1> _n124<1> _n11e _n123<1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names a_bus<2> _n124<2> _n11e _n123<2>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+# (sel  == 'b1) ? a_inv_bus  : (sel  == 'b0) ? a_bus  : 'b000z
+.names a_inv_bus<0> _n123<0> _n11a _n128<0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names a_inv_bus<1> _n123<1> _n11a _n128<1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names a_inv_bus<2> _n123<2> _n11a _n128<2>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n128<0> a_out$raw_n119<0>
+- =_n128<0>
+.names _n128<1> a_out$raw_n119<1>
+- =_n128<1>
+.names _n128<2> a_out$raw_n119<2>
+- =_n128<2>
+# conflict arbitrators
+.names a_bus$raw_n111<0>  a_bus<0>
+- =a_bus$raw_n111<0>
+.names a_bus$raw_n113<1>  a_bus<1>
+- =a_bus$raw_n113<1>
+.names a_bus$raw_n115<2>  a_bus<2>
+- =a_bus$raw_n115<2>
+.names a_out$raw_n119<0>  a_out<0>
+- =a_out$raw_n119<0>
+.names a_out$raw_n119<1>  a_out<1>
+- =a_out$raw_n119<1>
+.names a_out$raw_n119<2>  a_out<2>
+- =a_out$raw_n119<2>
+.names a_inv_bus$raw_n117<0>  a_inv_bus<0>
+- =a_inv_bus$raw_n117<0>
+.names a_inv_bus$raw_n117<1>  a_inv_bus<1>
+- =a_inv_bus$raw_n117<1>
+.names a_inv_bus$raw_n117<2>  a_inv_bus<2>
+- =a_inv_bus$raw_n117<2>
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
+.model output_mismatch 
+# I/O ports
+.inputs co
+.inputs a0
+.inputs a1b
+.inputs a1
+.inputs a2
+.inputs cob
+.inputs a0b
+.outputs mismatch
+.inputs a2b
+# assign mismatch0  = (a0  ^ a0b ) | (a1  ^ a1b ) | (a2  ^ a2b ) | (co  ^ cob )
+# a0  ^ a0b 
+.names a0 a0b _n12d
+.def 0
+0 1 1
+1 0 1
+# a1  ^ a1b 
+.names a1 a1b _n12e
+.def 0
+0 1 1
+1 0 1
+# (a0  ^ a0b ) | (a1  ^ a1b )
+.names _n12d _n12e _n12f
+.def 1
+0 0 0
+# a2  ^ a2b 
+.names a2 a2b _n130
+.def 0
+0 1 1
+1 0 1
+# (a0  ^ a0b ) | (a1  ^ a1b ) | (a2  ^ a2b )
+.names _n12f _n130 _n131
+.def 1
+0 0 0
+# co  ^ cob 
+.names co cob _n132
+.def 0
+0 1 1
+1 0 1
+# (a0  ^ a0b ) | (a1  ^ a1b ) | (a2  ^ a2b ) | (co  ^ cob )
+.names _n131 _n132 _n133
+.def 1
+0 0 0
+.names _n133 mismatch0$raw_n12c
+- =_n133
+# assign mismatch1  = (a0  ^ a0b ) | (a1  ^ a1b ) | (a2  ^ a2b ) | (co  ^ cob )
+# a0  ^ a0b 
+.names a0 a0b _n135
+.def 0
+0 1 1
+1 0 1
+# a1  ^ a1b 
+.names a1 a1b _n136
+.def 0
+0 1 1
+1 0 1
+# (a0  ^ a0b ) | (a1  ^ a1b )
+.names _n135 _n136 _n137
+.def 1
+0 0 0
+# a2  ^ a2b 
+.names a2 a2b _n138
+.def 0
+0 1 1
+1 0 1
+# (a0  ^ a0b ) | (a1  ^ a1b ) | (a2  ^ a2b )
+.names _n137 _n138 _n139
+.def 1
+0 0 0
+# co  ^ cob 
+.names co cob _n13a
+.def 0
+0 1 1
+1 0 1
+# (a0  ^ a0b ) | (a1  ^ a1b ) | (a2  ^ a2b ) | (co  ^ cob )
+.names _n139 _n13a _n13b
+.def 1
+0 0 0
+.names _n13b mismatch1$raw_n134
+- =_n13b
+# assign mismatch2  = (a0  ^ a0b ) | (a1  ^ a1b ) | (a2  ^ a2b ) | (co  ^ cob )
+# a0  ^ a0b 
+.names a0 a0b _n13d
+.def 0
+0 1 1
+1 0 1
+# a1  ^ a1b 
+.names a1 a1b _n13e
+.def 0
+0 1 1
+1 0 1
+# (a0  ^ a0b ) | (a1  ^ a1b )
+.names _n13d _n13e _n13f
+.def 1
+0 0 0
+# a2  ^ a2b 
+.names a2 a2b _n140
+.def 0
+0 1 1
+1 0 1
+# (a0  ^ a0b ) | (a1  ^ a1b ) | (a2  ^ a2b )
+.names _n13f _n140 _n141
+.def 1
+0 0 0
+# co  ^ cob 
+.names co cob _n142
+.def 0
+0 1 1
+1 0 1
+# (a0  ^ a0b ) | (a1  ^ a1b ) | (a2  ^ a2b ) | (co  ^ cob )
+.names _n141 _n142 _n143
+.def 1
+0 0 0
+.names _n143 mismatch2$raw_n13c
+- =_n143
+# assign mismatch  = (mismatch0  & mismatch1 ) | (mismatch0  & mismatch2 ) | (mismatch1  & mismatch2 )
+# mismatch0  & mismatch1 
+.names mismatch0 mismatch1 _n145
+.def 0
+1 1 1
+# mismatch0  & mismatch2 
+.names mismatch0 mismatch2 _n146
+.def 0
+1 1 1
+# (mismatch0  & mismatch1 ) | (mismatch0  & mismatch2 )
+.names _n145 _n146 _n147
+.def 1
+0 0 0
+# mismatch1  & mismatch2 
+.names mismatch1 mismatch2 _n148
+.def 0
+1 1 1
+# (mismatch0  & mismatch1 ) | (mismatch0  & mismatch2 ) | (mismatch1  & mismatch2 )
+.names _n147 _n148 _n149
+.def 1
+0 0 0
+.names _n149 mismatch$raw_n144
+- =_n149
+# conflict arbitrators
+.names mismatch0$raw_n12c  mismatch0
+0 0
+1 1
+.names mismatch1$raw_n134  mismatch1
+0 0
+1 1
+.names mismatch2$raw_n13c  mismatch2
+0 0
+1 1
+.names mismatch$raw_n144  mismatch
+0 0
+1 1
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
+.model odd_parity_trc_gen 
+# I/O ports
+.inputs d0
+.inputs d1
+.inputs d2
+.inputs d3
+.inputs d4
+.outputs trc1
+.inputs d5
+.outputs trc0
+.inputs d6
+# assign trc0  = d0  ^ d1  ^ d2  ^ d3 
+# d0  ^ d1 
+.names d0 d1 _n14b
+.def 0
+0 1 1
+1 0 1
+# d0  ^ d1  ^ d2 
+.names _n14b d2 _n14c
+.def 0
+0 1 1
+1 0 1
+# d0  ^ d1  ^ d2  ^ d3 
+.names _n14c d3 _n14d
+.def 0
+0 1 1
+1 0 1
+.names _n14d trc0$raw_n14a
+- =_n14d
+# assign trc1  = d4  ^ d5  ^ d6 
+# d4  ^ d5 
+.names d4 d5 _n14f
+.def 0
+0 1 1
+1 0 1
+# d4  ^ d5  ^ d6 
+.names _n14f d6 _n150
+.def 0
+0 1 1
+1 0 1
+.names _n150 trc1$raw_n14e
+- =_n150
+# conflict arbitrators
+.names trc1$raw_n14e  trc1
+0 0
+1 1
+.names trc0$raw_n14a  trc0
+0 0
+1 1
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
+.model one_hot2two_rail_conv 
+# I/O ports
+.outputs y
+.inputs d0
+.inputs d1
+.inputs d2
+.outputs xb
+.outputs yb
+.outputs x
+# assign x  = (d0  & ~d1  & ~d2 ) | (~d0  & ~d1  & d2 )
+.names d1 _n152
+0 1  
+1 0  
+# d0  & ~d1 
+.names d0 _n152 _n153
+.def 0
+1 1 1
+.names d2 _n154
+0 1  
+1 0  
+# d0  & ~d1  & ~d2 
+.names _n153 _n154 _n155
+.def 0
+1 1 1
+.names d0 _n156
+0 1  
+1 0  
+.names d1 _n157
+0 1  
+1 0  
+# ~d0  & ~d1 
+.names _n156 _n157 _n158
+.def 0
+1 1 1
+# ~d0  & ~d1  & d2 
+.names _n158 d2 _n159
+.def 0
+1 1 1
+# (d0  & ~d1  & ~d2 ) | (~d0  & ~d1  & d2 )
+.names _n155 _n159 _n15a
+.def 1
+0 0 0
+.names _n15a x$raw_n151
+- =_n15a
+# assign xb  = (~d0  & d1  & ~d2 )
+.names d0 _n15c
+0 1  
+1 0  
+# ~d0  & d1 
+.names _n15c d1 _n15d
+.def 0
+1 1 1
+.names d2 _n15e
+0 1  
+1 0  
+# ~d0  & d1  & ~d2 
+.names _n15d _n15e _n15f
+.def 0
+1 1 1
+.names _n15f xb$raw_n15b
+- =_n15f
+# assign y  = (d0  & ~d1  & ~d2 ) | (~d0  & d1  & ~d2 )
+.names d1 _n161
+0 1  
+1 0  
+# d0  & ~d1 
+.names d0 _n161 _n162
+.def 0
+1 1 1
+.names d2 _n163
+0 1  
+1 0  
+# d0  & ~d1  & ~d2 
+.names _n162 _n163 _n164
+.def 0
+1 1 1
+.names d0 _n165
+0 1  
+1 0  
+# ~d0  & d1 
+.names _n165 d1 _n166
+.def 0
+1 1 1
+.names d2 _n167
+0 1  
+1 0  
+# ~d0  & d1  & ~d2 
+.names _n166 _n167 _n168
+.def 0
+1 1 1
+# (d0  & ~d1  & ~d2 ) | (~d0  & d1  & ~d2 )
+.names _n164 _n168 _n169
+.def 1
+0 0 0
+.names _n169 y$raw_n160
+- =_n169
+# assign yb  = (~d0  & ~d1  & d2 )
+.names d0 _n16b
+0 1  
+1 0  
+.names d1 _n16c
+0 1  
+1 0  
+# ~d0  & ~d1 
+.names _n16b _n16c _n16d
+.def 0
+1 1 1
+# ~d0  & ~d1  & d2 
+.names _n16d d2 _n16e
+.def 0
+1 1 1
+.names _n16e yb$raw_n16a
+- =_n16e
+# conflict arbitrators
+.names y$raw_n160  y
+0 0
+1 1
+.names xb$raw_n15b  xb
+0 0
+1 1
+.names yb$raw_n16a  yb
+0 0
+1 1
+.names x$raw_n151  x
+0 0
+1 1
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
+.model trc 
+# I/O ports
+.outputs xb
+.inputs bb
+.inputs ab
+.inputs a
+.outputs x
+.inputs b
+# assign x  = (a  & b ) | (ab  & bb )
+# a  & b 
+.names a b _n170
+.def 0
+1 1 1
+# ab  & bb 
+.names ab bb _n171
+.def 0
+1 1 1
+# (a  & b ) | (ab  & bb )
+.names _n170 _n171 _n172
+.def 1
+0 0 0
+.names _n172 x$raw_n16f
+- =_n172
+# assign xb  = (a  & bb ) | (ab  & b )
+# a  & bb 
+.names a bb _n174
+.def 0
+1 1 1
+# ab  & b 
+.names ab b _n175
+.def 0
+1 1 1
+# (a  & bb ) | (ab  & b )
+.names _n174 _n175 _n176
+.def 1
+0 0 0
+.names _n176 xb$raw_n173
+- =_n176
+# conflict arbitrators
+.names xb$raw_n173  xb
+0 0
+1 1
+.names x$raw_n16f  x
+0 0
+1 1
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
+.model parity_onehot_trc 
+# I/O ports
+.inputs a0
+.inputs p
+.inputs a1
+.outputs xb
+.inputs a2
+.inputs c0
+.inputs c1
+.inputs c2
+.inputs b0
+.inputs b1
+.outputs x
+.inputs b2
+.subckt odd_parity_trc_gen parity_trc d0=a0  d1=a1  d2=a2  d3=b0  d4=b1  d5=b2  d6=p  trc0=trc_par<0>  trc1=trc_par<1>  
+.subckt one_hot2two_rail_conv oh_trc_gen d0=c0  d1=c1  d2=c2  x=ctrl_trc_x<0>  xb=ctrl_trc_x<1>  y=ctrl_trc_y<0>  yb=ctrl_trc_y<1>  
+.subckt trc oh_trc a=ctrl_trc_x<0>  ab=ctrl_trc_x<1>  b=ctrl_trc_y<0>  bb=ctrl_trc_y<1>  x=ctrl_trc<0>  xb=ctrl_trc<1>  
+.subckt trc final_trc a=trc_par<0>  ab=trc_par<1>  b=ctrl_trc<0>  bb=ctrl_trc<1>  x=x  xb=xb  
+# conflict arbitrators
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
+.model output_trc 
+# I/O ports
+.inputs a0
+.inputs aco
+.inputs a1
+.outputs xb
+.inputs a2
+.inputs bco
+.inputs b0
+.inputs b1
+.outputs x
+.inputs b2
+.names b0 _n177
+0 1  
+1 0  
+.names b1 _n178
+0 1  
+1 0  
+.subckt trc trc_ab01 a=a0  ab=_n177  b=a1  bb=_n178  x=ab01_trc<0>  xb=ab01_trc<1>  
+.names b2 _n179
+0 1  
+1 0  
+.names bco _n17a
+0 1  
+1 0  
+.subckt trc trc_ab2co a=a2  ab=_n179  b=aco  bb=_n17a  x=ab2co_trc<0>  xb=ab2co_trc<1>  
+.subckt trc trc_final a=ab01_trc<0>  ab=ab01_trc<1>  b=ab2co_trc<0>  bb=ab2co_trc<1>  x=x  xb=xb  
+# conflict arbitrators
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+

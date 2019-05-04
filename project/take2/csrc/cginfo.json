@@ -1,0 +1,185 @@
+{
+    "CompileProcesses": [
+        "cgproc.18754.json"
+    ],
+    "LVLData": [
+        "SIM"
+    ],
+    "MlibObjs": {},
+    "PrevCompiledModules": {
+        "output_trc": {
+            "CPPMR_d": {
+                "bytes": 11597,
+                "archive": "archive.38/_prev_archive_1.a",
+                "checksum": 4294967295,
+                "mod": "output_trc",
+                "mode": 4,
+                "out": "CPPMR_d.o"
+            }
+        },
+        "project_tb": {
+            "d4a98_d": {
+                "bytes": 29775,
+                "archive": "archive.38/_18754_archive_1.a",
+                "checksum": 4294967295,
+                "mod": "project_tb",
+                "out": "d4a98_d.o",
+                "mode": 4
+            }
+        },
+        "alu": {
+            "C26kq_d": {
+                "bytes": 26135,
+                "archive": "archive.38/_prev_archive_1.a",
+                "checksum": 4294967295,
+                "mod": "alu",
+                "mode": 4,
+                "out": "C26kq_d.o"
+            }
+        },
+        "...MASTER...": {
+            "amcQw_d": {
+                "bytes": 7543,
+                "checksum": 4294967295,
+                "mod": "...MASTER...",
+                "out": "objs/amcQw_d.o",
+                "mode": 4
+            }
+        },
+        "output_mismatch": {
+            "BiBLS_d": {
+                "bytes": 8287,
+                "archive": "archive.38/_prev_archive_1.a",
+                "checksum": 4294967295,
+                "mod": "output_mismatch",
+                "mode": 4,
+                "out": "BiBLS_d.o"
+            }
+        },
+        "one_bit_adder": {
+            "SLAaN_d": {
+                "bytes": 13010,
+                "archive": "archive.38/_prev_archive_1.a",
+                "checksum": 4294967295,
+                "mod": "one_bit_adder",
+                "mode": 4,
+                "out": "SLAaN_d.o"
+            }
+        },
+        "parity_onehot_trc": {
+            "xVqiJ_d": {
+                "bytes": 14029,
+                "archive": "archive.38/_prev_archive_1.a",
+                "checksum": 4294967295,
+                "mod": "parity_onehot_trc",
+                "mode": 4,
+                "out": "xVqiJ_d.o"
+            }
+        }
+    },
+    "NameTable": {
+        "one_bit_adder": [
+            "one_bit_adder",
+            "SLAaN",
+            "module"
+        ],
+        "...MASTER...": [
+            "SIM",
+            "amcQw",
+            "module"
+        ],
+        "output_mismatch": [
+            "output_mismatch",
+            "BiBLS",
+            "module"
+        ],
+        "alu": [
+            "alu",
+            "C26kq",
+            "module"
+        ],
+        "parity_onehot_trc": [
+            "parity_onehot_trc",
+            "xVqiJ",
+            "module"
+        ],
+        "output_trc": [
+            "output_trc",
+            "CPPMR",
+            "module"
+        ],
+        "project_tb": [
+            "project_tb",
+            "d4a98",
+            "module"
+        ]
+    },
+    "CompileStrategy": "fullobj",
+    "CurCompileUdps": {},
+    "stat": {
+        "Frontend(%)": 78.378926312374986,
+        "totalObjSize": 96830,
+        "ru_self_cgstart": {
+            "ru_utime_sec": 0.057991000000000001,
+            "ru_stime_sec": 0.019996,
+            "ru_maxrss_kb": 50200,
+            "ru_nvcsw": 193,
+            "ru_minflt": 11577,
+            "ru_majflt": 0,
+            "ru_nivcsw": 19
+        },
+        "ru_childs_cgstart": {
+            "ru_utime_sec": 0.0,
+            "ru_stime_sec": 0.0,
+            "ru_maxrss_kb": 0,
+            "ru_nvcsw": 0,
+            "ru_minflt": 0,
+            "ru_majflt": 0,
+            "ru_nivcsw": 0
+        },
+        "ru_self_end": {
+            "ru_utime_sec": 0.073987999999999998,
+            "ru_stime_sec": 0.025995999999999998,
+            "ru_maxrss_kb": 57932,
+            "ru_nvcsw": 271,
+            "ru_minflt": 13853,
+            "ru_majflt": 0,
+            "ru_nivcsw": 34
+        },
+        "nMops": 1587,
+        "nQuads": 636,
+        "mopSpeed": 99206.101143964508,
+        "ru_childs_end": {
+            "ru_utime_sec": 0.0,
+            "ru_stime_sec": 0.0,
+            "ru_maxrss_kb": 0,
+            "ru_nvcsw": 0,
+            "ru_minflt": 0,
+            "ru_majflt": 0,
+            "ru_nivcsw": 0
+        },
+        "quadSpeed": 39757.454522723019,
+        "CodeGen(%)": 21.621073687625017,
+        "mop/quad": 2.4952830188679247,
+        "outputSizePerQuad": 152.0
+    },
+    "SIMBData": {
+        "out": "amcQwB.o",
+        "bytes": 59649
+    },
+    "CurCompileModules": [
+        "...MASTER...",
+        "project_tb"
+    ],
+    "PEModules": [],
+    "Misc": {
+        "cwd": "/home/ecelrc/students/agroszewski/dependable_computing/project/take2",
+        "csrc": "csrc",
+        "archive_dir": "archive.38",
+        "csrc_abs": "/home/ecelrc/students/agroszewski/dependable_computing/project/take2/csrc",
+        "daidir": "simv.daidir",
+        "daidir_abs": "/home/ecelrc/students/agroszewski/dependable_computing/project/take2/simv.daidir",
+        "default_output_dir": "csrc"
+    },
+    "CompileStatus": "Successful"
+}

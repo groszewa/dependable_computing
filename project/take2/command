@@ -1,0 +1,1 @@
+./sis < bat_alex | awk '/Average Fault Tolerance/ {print $5;fflush(stdout)}' | tee matlab_data.txt

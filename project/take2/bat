@@ -1,0 +1,3 @@
+./vl2mv project.v
+./vis  < bat2
+./sis < bat3

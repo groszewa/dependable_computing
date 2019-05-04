@@ -1,0 +1,37 @@
+{
+    "one_bit_adder": [
+        "one_bit_adder",
+        "SLAaN",
+        "module"
+    ],
+    "...MASTER...": [
+        "SIM",
+        "amcQw",
+        "module"
+    ],
+    "output_mismatch": [
+        "output_mismatch",
+        "BiBLS",
+        "module"
+    ],
+    "alu": [
+        "alu",
+        "C26kq",
+        "module"
+    ],
+    "parity_onehot_trc": [
+        "parity_onehot_trc",
+        "xVqiJ",
+        "module"
+    ],
+    "output_trc": [
+        "output_trc",
+        "CPPMR",
+        "module"
+    ],
+    "project_tb": [
+        "project_tb",
+        "d4a98",
+        "module"
+    ]
+}

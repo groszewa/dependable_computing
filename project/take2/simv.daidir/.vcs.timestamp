@@ -1,0 +1,94 @@
+0 
+22
+-Mamsrun=
+-Masflags=
+-Mcc=gcc
+-Mcfl= -pipe -fPIC -O -I/usr/local/packages/synopsys_2015/vcs-mx/include
+-Mcplusplus=g++
+-Mcrt0=
+-Mcrtn=
+-Mcsrc=
+-Mexternalobj=
+-Mldflags= -rdynamic
+-Mobjects= /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libvirsim.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/liberrorinf.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libsnpsmalloc.so
+-Mout=simv
+-Msaverestoreobj=/usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/vcs_save_restore_new.o
+-Msyslibs=-ldl
+-Mvcsaceobjs=
+-Mxcflags= -pipe -fPIC -I/usr/local/packages/synopsys_2015/vcs-mx/include
+-full64
+-gen_obj
+-picarchive
+/usr/local/packages/synopsys_2015/vcs-mx/linux64/bin/vcs1
+project.v
+project_tb.v
+59
+sysc_uni_pwd=/home/ecelrc/students/agroszewski/dependable_computing/project/take2
+XSESSION_EXEC=xfce4-session
+XDG_SESSION_COOKIE=c1e22219e2fcc400a75df0a700000028-1510630272.308360-1162501482
+XAUTHORITY=/home/ecelrc/students/agroszewski//.Xauthority
+X2GO_SESSION=agroszewski-65-1510630266_stDXFCE_dp32
+X2GO_AGENT_PID=30036
+VMR_MODE_FLAG=64
+VCS_MX_HOME_INTERNAL=1
+VCS_MODE_FLAG=64
+VCS_HOME_modshare=/usr/local/packages/synopsys_2015/vcs-mx/:1
+VCS_HOME=/usr/local/packages/synopsys_2015/vcs-mx/
+VCS_DEPTH=0
+VCS_ARG_ADDED_FOR_TMP=1
+VCS_ARCH=linux64
+UNAME=/bin/uname
+TOOL_HOME=/usr/local/packages/synopsys_2015/vcs-mx/linux64
+TCLSH=/usr/bin/tclsh
+STARTUP=/usr/bin/env LD_LIBRARY_PATH=/usr/lib64/nx/X11/Xinerama:/usr/lib64/nx/X11:/usr/local/lib xfce4-session
+SSH_CONNECTION=172.29.219.243 53645 146.6.221.70 22
+SSH_CLIENT=172.29.219.243 53645 22
+SSH_AUTH_SOCK=/tmp/ssh-fQYqZ31458/agent.31458
+SSH_ASKPASS=/usr/libexec/openssh/gnome-ssh-askpass
+SSH_AGENT_PID=31466
+SNPSLMD_LICENSE_FILE_modshare=/usr/local/packages/synopsys_2015/key:1
+SNPSLMD_LICENSE_FILE=/usr/local/packages/synopsys_2015/key
+SESSION_MANAGER=local/unix:@/tmp/.ICE-unix/31458,unix/unix:/tmp/.ICE-unix/31458
+SELINUX_USE_CURRENT_RANGE=
+SELINUX_ROLE_REQUESTED=
+SELINUX_LEVEL_REQUESTED=
+SCRNAME=vcs
+SCRIPT_NAME=vcs
+QT_GRAPHICSSYSTEM=native
+QTLIB=/usr/lib64/qt-3.3/lib
+QTINC=/usr/lib64/qt-3.3/include
+QTDIR=/usr/lib64/qt-3.3
+PULSE_CLIENTCONFIG=/home/ecelrc/students/agroszewski//.x2go/C-agroszewski-65-1510630266_stDXFCE_dp32/.pulse-client.conf
+PATH_modshare=/usr/bin:1:/usr/X11R6/bin:1:/usr/local/bin:1:/usr/local/packages/matlab_2017a/bin:1:/usr/local/packages/synopsys_2015/vcs-mx/bin:1:/bin:1:/usr/local/packages/matlab_2017a/toolbox:1:/usr/local/packages/validation/bin:1:/sbin:1:/usr/sbin:1:/usr/local/etc:1:/usr/local/packages/synopsys_2015/vcs-mx/amd64/bin:1
+OVA_UUM=0
+NX_XINERAMA_CONF=/home/ecelrc/students/agroszewski//.x2go/C-agroszewski-65-1510630266_stDXFCE_dp32/xinerama.conf
+MODULESHOME=/home/projects/Modules
+MODULEPATH_modshare=/home/projects/Modules/tools:5:/home/projects/Modules/projects:5:/home/projects/Modules/base:5
+MODULEPATH=/home/projects/Modules/projects:/home/projects/Modules/tools:/home/projects/Modules/base
+MAVEN_HOME=/usr/share/apache-maven
+MANPATH_modshare=/usr/man:10:/home/projects/Modules/man:5:/usr/X11R6/man:5:/usr/local/man:5:/usr/share/man:10
+MAILPATH=/var/spool/mail/agroszewski
+M2_HOME=/usr/share/apache-maven
+LOADEDMODULES_modshare=syn/vcs/2015:1:openwin:5:admin:5:system:5:modules:5:matlab/2017:1:ece-defaults:5:aliases:5:local:5
+LOADEDMODULES=modules:system:openwin:aliases:local:admin:ece-defaults:syn/vcs/2015:matlab/2017
+LM_LICENSE_FILE_modshare=/usr/local/packages/matlab_2017a/etc/license.dat:1:/usr/local/packages/synopsys_2015/key:1
+LESSOPEN=||/usr/bin/lesspipe.sh %s
+LD_LIBRARY_PATH_modshare=/usr/local/packages/matlab_2017a/matlab_lib:1:/usr/lib64:1:/usr/local/packages/synopsys_2015/vcs-mx/amd64/lib:1:/usr/local/lib:2:/usr/lib64/nx/X11:999999999:/usr/lib64/nx/X11/Xinerama:999999999
+LC_ALL=C
+KDEDIRS=/usr
+HISTCONTROL=ignoredups
+G_BROKEN_FILENAMES=1
+DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-ZasOaJUCIw,guid=997f5b48d2092292bb09c72600202a25
+CVS_RSH=ssh
+COLORTERM=Terminal
+CCACHE_HASHDIR=
+0
+2
+1511722483 project_tb.v
+1511895525 project.v
+4
+0 
+1448427877 /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libvirsim.so
+1448427558 /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/liberrorinf.so
+1448427538 /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libsnpsmalloc.so
+1511895535 simv.daidir

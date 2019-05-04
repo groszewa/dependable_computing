@@ -1,0 +1,4 @@
+read_blif_mv project.mv
+init_verify
+write_blif -R project.blif
+quit

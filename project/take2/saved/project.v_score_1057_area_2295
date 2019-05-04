@@ -1,0 +1,425 @@
+`define WIDTH 2
+`timescale 1 ns / 100 ps
+/**************************************************************************/
+/*  Stub for Project in EE382M - Dependable Computing
+*/
+/*
+*/
+/*  Do not change I/O names in main() module
+*/
+/*
+*/
+/**************************************************************************/
+
+module main(A0,A1,A2,B0,B1,B2,PAR,C0,C1,C2,X0,X1,X2,XC,XE0,XE1,
+            Y0,Y1,Y2,YC,YE0,YE1);
+
+input A0,A1,A2,B0,B1,B2,PAR,C0,C1,C2;
+output X0,X1,X2,XC,XE0,XE1,Y0,Y1,Y2,YC,YE0,YE1;
+
+   wire IS_INPUT_ERROR, IS_DATA_ERROR,IS_ERROR;
+   wire IS_ERROR0,IS_ERROR1;
+   
+   wire x0,x1,x2,xc,y0,y1,y2,yc;
+   wire ie0,ie1,ie2;
+   
+   
+   
+
+/* add your design here */
+
+   //assign X0 = 1;
+   //assign X1 = 1;
+   //assign X2 = 1;
+   //assign XC = 1;
+   //assign XE0 = 1;
+   //assign XE1 = 0;
+   //assign Y0 = 1;
+   //assign Y1 = 1;
+   //assign Y2 = 1;
+   //assign YC = 1;
+   //assign YE0 = 1;
+   //assign YE1 = 1;
+
+   alu alu0(.a0(A0),.a1(A1),.a2(A2),.b0(B0),.b1(B1),.b2(B2),.c0(C0),.c1(C1),.c2(C2),.x0(x0),.x1(x1),.x2(x2),.xc(xc));
+   alu alu1(.a0(A0),.a1(A1),.a2(A2),.b0(B0),.b1(B1),.b2(B2),.c0(C0),.c1(C1),.c2(C2),.x0(y0),.x1(y1),.x2(y2),.xc(yc));
+
+   input_error_detect ied0(.a0(A0),.a1(A1),.a2(A2),.b0(B0),.b1(B1),.b2(B2),.par(PAR),.c0(C0),.c1(C1),.c2(C2),.is_error(IS_INPUT_ERROR));
+   //input_error_detect ied0(.a0(A0),.a1(A1),.a2(A2),.b0(B0),.b1(B1),.b2(B2),.par(PAR),.c0(C0),.c1(C1),.c2(C2),.is_error(IS_INPUT_ERROR0));
+   //input_error_detect ied1(.a0(A0),.a1(A1),.a2(A2),.b0(B0),.b1(B1),.b2(B2),.par(PAR),.c0(C0),.c1(C1),.c2(C2),.is_error(IS_INPUT_ERROR1));
+   output_mismatch     om(.a0(x0),.a0b(y0),.a1(x1),.a1b(y1),.a2(x2),.a2b(y2),.co(xc),.cob(yc),.mismatch(IS_DATA_ERROR));
+
+
+
+   
+   //assign ie0 = IS_INPUT_ERROR | IS_DATA_ERROR;
+   //assign ie1 = IS_INPUT_ERROR | IS_DATA_ERROR;
+   //assign ie2 = IS_INPUT_ERROR | IS_DATA_ERROR;
+   
+   //assign IS_ERROR0  = IS_INPUT_ERROR0 | IS_DATA_ERROR;
+   //assign IS_ERROR1  = IS_INPUT_ERROR1 | IS_DATA_ERROR;
+   
+   //assign IS_ERROR = (ie0 & ie1) | (ie0 & ie2) | (ie1 & ie2);
+   
+   assign IS_ERROR  = IS_INPUT_ERROR | IS_DATA_ERROR;
+   
+   
+
+   assign XE0 = (IS_ERROR) ? IS_ERROR : 0;
+   assign XE1 = (IS_ERROR) ? IS_ERROR : 1;
+
+   assign YE0 = (IS_ERROR) ? IS_ERROR : 0;
+   assign YE1 = (IS_ERROR) ? IS_ERROR : 1;
+   
+
+   assign X0 = x0;
+   assign X1 = x1;
+   assign X2 = x2;
+   assign XC = xc;
+   assign Y0 = y0;
+   assign Y1 = y1;
+   assign Y2 = y2;
+   assign YC = yc;
+   
+   
+   
+
+   
+endmodule // main
+
+
+
+module rc( a, b, cin, s, cout );/* 3 bit ripple carry adder made up of 8 one_bit_adder */
+
+input [`WIDTH:0] a; 
+input [`WIDTH:0] b;
+input 		 cin;
+
+output[`WIDTH:0] s;
+output		 cout;
+
+wire t1,t2;
+   wire a1_cout0, a1_cout1, a1_cout2;
+   wire a2_cin0, a2_cin1,a2_cin2;
+   wire a2_cout0, a2_cout1, a2_cout2;
+   wire a3_cin0,  a3_cin1,  a3_cin2;    
+   wire a3_cout0, a3_cout1, a3_cout2;
+   
+   
+
+one_bit_adder a1(a[0],b[0],cin,cin,cin,s[0],a1_cout0,a1_cout1,a1_cout2);
+
+   assign a2_cin0 = (a1_cout0 & a1_cout1) | (a1_cout0 & a1_cout2) | (a1_cout1 & a1_cout2);
+   assign a2_cin1 = (a1_cout0 & a1_cout1) | (a1_cout0 & a1_cout2) | (a1_cout1 & a1_cout2);
+   assign a2_cin2 = (a1_cout0 & a1_cout1) | (a1_cout0 & a1_cout2) | (a1_cout1 & a1_cout2);
+   
+one_bit_adder a2(a[1],b[1],a2_cin0,a2_cin1,a2_cin2,s[1],a2_cout0,a2_cout1,a2_cout2);
+
+   assign a3_cin0 = (a2_cout0 & a2_cout1) | (a2_cout0 & a2_cout2) | (a2_cout1 & a2_cout2);
+   assign a3_cin1 = (a2_cout0 & a2_cout1) | (a2_cout0 & a2_cout2) | (a2_cout1 & a2_cout2);
+   assign a3_cin2 = (a2_cout0 & a2_cout1) | (a2_cout0 & a2_cout2) | (a2_cout1 & a2_cout2);
+
+   
+one_bit_adder a3(a[2],b[2],a3_cin0,a3_cin1,a3_cin2,s[2],a3_cout0,a3_cout1,a3_cout2);
+
+   assign cout = (a3_cout0 & a3_cout1) | (a3_cout0 & a3_cout2) | (a3_cout1 & a3_cout2);
+   
+
+endmodule // rc
+
+
+module one_bit_adder(a,b,cin0,cin1,cin2,s,cout0,cout1,cout2);
+
+/* three inputs which are 1 bit each */
+input a;
+input b;
+input cin0,cin1,cin2;/* carry in */
+
+/* two outputs which are 1 bit each */
+output s;/* sum */
+output cout0,cout1,cout2;/* carry out */
+
+   wire a0,a1,a2;
+   wire b0,b1,b2;
+   wire cin1,cin2;
+
+   wire s0,s1,s2;
+   wire cout0,cout1,cout2;
+   
+
+   //three adders for TMR
+   assign a0 = a;
+   assign a1 = a;
+   assign a2 = a;
+   assign b0 = b;
+   
+   assign b1 = b;
+   assign b2 = b;
+   //assign cin0 = cin;
+   //assign cin1 = cin;
+   //assign cin2 = cin;
+   
+   assign s0 = a0^b0^cin0;
+   assign cout0 = (a0&b0)|(b0&cin0)|(cin0&a0);
+
+   assign s1 = a1^b0^cin1;                    
+   assign cout1 = (a1&b1)|(b1&cin1)|(cin1&a1);
+
+   assign s2 = a2^b2^cin2;                    
+   assign cout2 = (a2&b2)|(b2&cin2)|(cin2&a2);
+
+   //majority vote
+   assign s    = (s0 & s1) | (s0 & s2) | (s1 & s2);
+   //assign cout = (cout0 & cout1) | (cout0 & cout2) | (cout1 & cout2);
+   
+   
+
+
+endmodule // one_bit_adder
+
+module onehot_detect(c0,c1,c2,is_onehot);
+
+   input c0,c1,c2;
+   output is_onehot;
+
+   wire   c0_hot, c1_hot, c2_hot;
+
+   assign c0_hot = c0 & ~(c1 | c2);
+   assign c1_hot = c1 & ~(c0 | c2);
+   assign c2_hot = c2 & ~(c0 | c1);
+
+   assign is_onehot = c0_hot | c1_hot | c2_hot;
+
+endmodule // onehot_detect
+
+module odd_parity_detect(a0,a1,a2,b0,b1,b2,par,is_odd_parity);
+   input a0,a1,a2,b0,b1,b2,par;
+   output is_odd_parity;
+
+   assign is_odd_parity = a0^a1^a2^b0^b1^b2^par;
+
+endmodule // odd_parity_detect
+
+module input_error_detect(a0,a1,a2,b0,b1,b2,par,c0,c1,c2,is_error);
+   input a0,a1,a2,b0,b1,b2,par,c0,c1,c2;
+   output is_error;
+
+   //wire   is_onehot, is_odd_parity;
+   
+   wire   is_onehot_tmr, is_odd_parity_tmr;
+   
+   wire   is_onehot0 , is_onehot1, is_onehot1;
+   wire   is_odd_parity0, is_odd_parity1, is_odd_parity2;
+
+   wire   ie0, ie1,ie2;
+   
+
+   //odd_parity_detect opd(.a0(a0),.a1(a1),.a2(a2),.b0(b0),.b1(b1),.b2(b2),.par(par),.is_odd_parity(is_odd_parity));
+   //onehot_detect ohd(.c0(c0),.c1(c1),.c2(c2),.is_onehot(is_onehot));    
+   
+   odd_parity_detect opd0(.a0(a0),.a1(a1),.a2(a2),.b0(b0),.b1(b1),.b2(b2),.par(par),.is_odd_parity(is_odd_parity0));
+   odd_parity_detect opd1(.a0(a0),.a1(a1),.a2(a2),.b0(b0),.b1(b1),.b2(b2),.par(par),.is_odd_parity(is_odd_parity1));
+   odd_parity_detect opd2(.a0(a0),.a1(a1),.a2(a2),.b0(b0),.b1(b1),.b2(b2),.par(par),.is_odd_parity(is_odd_parity2));
+   
+   onehot_detect ohd0(.c0(c0),.c1(c1),.c2(c2),.is_onehot(is_onehot0));   
+   onehot_detect ohd1(.c0(c0),.c1(c1),.c2(c2),.is_onehot(is_onehot1));
+   onehot_detect ohd2(.c0(c0),.c1(c1),.c2(c2),.is_onehot(is_onehot2));
+   
+   assign is_onehot_tmr = (is_onehot0 & is_onehot1) | (is_onehot0 & is_onehot2) | (is_onehot1 & is_onehot2);
+   assign is_odd_parity_tmr = (is_odd_parity0 & is_odd_parity1) | (is_odd_parity0 & is_odd_parity2) | (is_odd_parity1 & is_odd_parity2);
+   
+   //assign ie0 = ~(is_onehot_tmr & is_odd_parity_tmr);
+   //assign ie1 = ~(is_onehot_tmr & is_odd_parity_tmr);
+   //assign ie2 = ~(is_onehot_tmr & is_odd_parity_tmr);
+   
+   //assign is_error = ~(is_onehot & is_odd_parity);
+   
+   assign is_error = ~(is_onehot_tmr & is_odd_parity_tmr);
+   //assign is_error = (ie0 & ie1) | (ie0 & ie2) | (ie1 & ie2);
+   
+
+endmodule // input_error_detect
+
+module alu(a0,a1,a2,b0,b1,b2,c0,c1,c2,x0,x1,x2,xc);
+   input a0,a1,a2,b0,b1,b2;
+   input c0,c1,c2;
+   output x0,x1,x2;
+   output xc;
+   
+
+   wire [`WIDTH:0] adder_in0,adder_in1;
+   wire [`WIDTH:0] adder_out;
+   wire            sub_sel;
+   wire            sub_sel0,sub_sel1,sub_sel2;
+   wire [`WIDTH:0]           adder_in00,adder_in01,adder_in02;
+   wire [`WIDTH:0]           adder_in10,adder_in11,adder_in12;
+
+   wire                      ima_sel, imb_sel;
+   wire                      ima_sel0,ima_sel1,ima_sel2;
+   wire                      imb_sel0,imb_sel1,imb_sel2;
+   
+   
+   
+   
+   assign ima_sel0 = c2 & ~c1 & ~c0;
+   assign ima_sel1 = c2 & ~c1 & ~c0;
+   assign ima_sel2 = c2 & ~c1 & ~c0;
+
+   assign ima_sel = (ima_sel0 & ima_sel1) | (ima_sel0 & ima_sel2) | (ima_sel1 & ima_sel2);
+   
+   assign imb_sel0 = ~c2 & c1 & ~c0;                                                      
+   assign imb_sel1 = ~c2 & c1 & ~c0;                                                      
+   assign imb_sel2 = ~c2 & c1 & ~c0;                                                      
+                                                                                          
+   assign imb_sel = (imb_sel0 & imb_sel1) | (imb_sel0 & imb_sel2) | (imb_sel1 & imb_sel2);
+   
+
+   
+   //inversion_mux im(a0,a1,a2,(c2&~c1&~c0),adder_in0);
+   //do tmr on this too
+   inversion_mux ima0(a0,a1,a2,(c2&~c1&~c0),adder_in00);
+   inversion_mux ima1(a0,a1,a2,(c2&~c1&~c0),adder_in01);
+   inversion_mux ima2(a0,a1,a2,(c2&~c1&~c0),adder_in02);
+
+   assign adder_in0 = (adder_in00 & adder_in01) | (adder_in00 & adder_in02) | (adder_in01 & adder_in02);
+   
+   
+   //inversion_mux im1(b0,b1,b2,(~c2&c1&~c0),adder_in1);
+   inversion_mux imb0(b0,b1,b2,(~c2&c1&~c0),adder_in10);
+   inversion_mux imb1(b0,b1,b2,(~c2&c1&~c0),adder_in11);
+   inversion_mux imb2(b0,b1,b2,(~c2&c1&~c0),adder_in12);
+
+   assign adder_in1 = (adder_in10 & adder_in11) | (adder_in10 & adder_in12) | (adder_in11 & adder_in12);
+
+   //tmr on sub_sel since this is important
+   assign sub_sel0 = ((!c0)&(c1)&(!c2))|((!c0)&(!c1)&(c2));
+   assign sub_sel1 = ((c1)&(!c0)&(!c2))|((!c0)&(!c1)&(c2));
+   assign sub_sel2 = ((!c0)&(!c2)&(c1))|((!c0)&(!c1)&(c2));
+
+   assign sub_sel = (sub_sel0 & sub_sel1) | (sub_sel0 & sub_sel2) | (sub_sel1 & sub_sel2);
+   
+
+   rc rc0(adder_in0,adder_in1,sub_sel,adder_out,xc);
+
+   assign x0 = adder_out[0];
+   assign x1 = adder_out[1];
+   assign x2 = adder_out[2];
+
+endmodule // alu
+
+/* inversion MUX */
+module inversion_mux(a0,a1,a2,sel,a_out);
+   input a0,a1,a2;
+   input sel;
+   output [`WIDTH:0] a_out;
+
+   wire  [`WIDTH:0] a_bus;
+   wire [`WIDTH:0]  a_inv_bus;
+
+   assign a_bus[0] = a0;
+   assign a_bus[1] = a1;
+   assign a_bus[2] = a2;
+
+   //a_bus = {a2,a1,a0};
+   
+
+   assign a_inv_bus = ~a_bus;
+   //assign a_inv_bus = (a_bus==4'b0) ? a_bus : ~a_bus;
+   
+   
+   //assign a_out = ((!sel) & (a_bus)) | ((sel) & (a_inv_bus));
+   assign a_out = (sel == 1'b1) ? a_inv_bus :
+                  (sel == 1'b0) ? a_bus     :
+                  4'bz;
+   
+
+
+endmodule // inversion_mux
+
+module output_mismatch(a0,a0b,a1,a1b,a2,a2b,co,cob,mismatch);
+   input a0,a0b,a1,a1b,a2,a2b,co,cob;
+   output mismatch;
+
+   wire   mismatch0,mismatch1,mismatch2;
+   
+
+   assign mismatch0 = (a0^a0b) | (a1^a1b) | (a2^a2b) | (co^cob);
+   assign mismatch1 = (a0^a0b) | (a1^a1b) | (a2^a2b) | (co^cob);
+   assign mismatch2 = (a0^a0b) | (a1^a1b) | (a2^a2b) | (co^cob);
+
+   assign mismatch = (mismatch0 & mismatch1) | (mismatch0 & mismatch2) | (mismatch1 & mismatch2);
+   
+
+endmodule // output_mismatch
+
+
+/*Two rail checker for odd parity*/
+module odd_parity_trc_gen(d0,d1,d2,d3,d4,d5,d6,trc0,trc1);
+
+   input d0,d1,d2,d3;
+   input d4,d5,d6;
+
+   output trc0,trc1;
+
+   assign trc0 = d0^d1^d2^d3;
+   assign trc1 = d4^d5^d6;
+                                              
+                                
+
+endmodule // odd_parity_trc_gen
+
+/* one-hot to two rail converter*/
+module one_hot2two_rail_conv(d0,d1,d2,x,xb,y,yb);
+   input d0,d1,d2;
+   output x,xb,y,yb;
+
+   assign x  = (d0  & ~d1 & ~d2) | (~d0 & ~d1 &  d2);
+   assign xb = (~d0 &  d1 & ~d2);
+   assign y  = (d0  & ~d1 & ~d2) | (~d0 &  d1 & ~d2);
+   assign yb = (~d0 & ~d1 & d2);
+   
+endmodule // one_hot2two_rail_conv
+
+/*two rail checker*/
+module trc(a,ab,b,bb,x,xb);
+   input a,ab,b,bb;
+   output x,xb;
+
+   assign x  = (a & b) | (ab & bb);
+   assign xb = (a & bb) | (ab & b);
+   
+
+endmodule // trc
+
+module parity_onehot_trc(a0,a1,a2,b0,b1,b2,p,c0,c1,c2,x,xb);
+   input a0,a1,a2,b0,b1,b2,p,c0,c1,c2;
+   output x,xb;
+
+   wire [1:0] trc_par;
+   wire [1:0] ctrl_trc_x,ctrl_trc_y;
+   wire [1:0] ctrl_trc;
+   
+   
+
+   
+   odd_parity_trc_gen     parity_trc(.d0(a0),.d1(a1),.d2(a2),.d3(b0),.d4(b1),.d5(b2),.d6(p),.trc0(trc_par[0]),.trc1(trc_par[1]));
+   one_hot2two_rail_conv  oh_trc_gen(.d0(c0),.d1(c1),.d2(c2),.x(ctrl_trc_x[0]),.xb(ctrl_trc_x[1]),.y(ctrl_trc_y[0]),.yb(ctrl_trc_y[1]));
+   trc                        oh_trc(.a(ctrl_trc_x[0]),.ab(ctrl_trc_x[1]),.b(ctrl_trc_y[0]),.bb(ctrl_trc_y[1]),.x(ctrl_trc[0]),.xb(ctrl_trc[1]));
+   trc                     final_trc(.a(trc_par[0]),.ab(trc_par[1]),.b(ctrl_trc[0]),.bb(ctrl_trc[1]),.x(x),.xb(xb));
+
+endmodule // parity_onehot_trc
+
+
+module output_trc(a0,a1,a2,aco,b0,b1,b2,bco,x,xb);
+   input a0,a1,a2,aco;
+   input b0,b1,b2,bco;
+   output x,xb;
+
+   wire [1:0] ab01_trc, ab2co_trc;
+   
+
+   trc  trc_ab01(.a(a0),.ab(~b0),.b(a1),.bb(~b1),.x(ab01_trc[0]),.xb(ab01_trc[1]));
+   trc trc_ab2co(.a(a2),.ab(~b2),.b(aco),.bb(~bco),.x(ab2co_trc[0]),.xb(ab2co_trc[1]));
+   trc trc_final(.a(ab01_trc[0]),.ab(ab01_trc[1]),.b(ab2co_trc[0]),.bb(ab2co_trc[1]),.x(x),.xb(xb));
+
+endmodule // output_trc

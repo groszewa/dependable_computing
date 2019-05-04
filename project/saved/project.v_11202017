@@ -1,0 +1,152 @@
+`timescale 1 ns / 100 ps
+
+/**************************************************************************/
+/*  Stub for Project in EE382M - Dependable Computing
+*/
+/*
+*/
+/*  Do not change I/O names in main() module
+*/
+/*
+*/
+/**************************************************************************/
+
+module main(A0,A1,A2,B0,B1,B2,PAR,C0,C1,C2,X0,X1,X2,XC,XE0,XE1,
+            Y0,Y1,Y2,YC,YE0,YE1);
+
+input A0,A1,A2,B0,B1,B2,PAR,C0,C1,C2;
+output X0,X1,X2,XC,XE0,XE1,Y0,Y1,Y2,YC,YE0,YE1;
+
+/* add your design here */
+   dumb_alu alu0(A0,A1,A2,B0,B1,B2,C0,C1,C2,X0,X1,X2,XC);
+   dumb_alu alu1(A0,A1,A2,B0,B1,B2,C0,C1,C2,Y0,Y1,Y2,YC);
+   odd_parity_trc_gen check_inputs0(A0,A1,A2,B0,B1,B2,PAR,XE0,XE1);
+   odd_parity_trc_gen check_inputs1(A0,A1,A2,B0,B1,B2,PAR,YE0,YE1);
+   
+   
+
+
+   
+endmodule // main
+
+
+
+
+/* 8 bit Ripple carry Adder*/
+
+/* macro for width */
+`define WIDTH 2
+
+module rc( a, b, cin, s, cout );/* 3 bit ripple carry adder made up of 3 one_bit_adder */
+
+input [`WIDTH:0] a; 
+input [`WIDTH:0] b;
+input 		 cin;
+
+output[`WIDTH:0] s;
+output		 cout;
+
+wire t1,t2;
+
+one_bit_adder a1(a[0],b[0],cin,s[0],t1);
+one_bit_adder a2(a[1],b[1],t1,s[1],t2);
+one_bit_adder a3(a[2],b[2],t2,s[2],cout);
+//one_bit_adder a4(a[3],b[3],t3,s[3],cout);
+//one_bit_adder a5(a[4],b[4],t4,s[4],t5);
+//one_bit_adder a6(a[5],b[5],t5,s[5],t6);
+//one_bit_adder a7(a[6],b[6],t6,s[6],t7);
+//one_bit_adder a8(a[7],b[7],t7,s[7],cout);
+
+endmodule // rc
+
+
+module one_bit_adder(a0,b0,c0,s0,c1);
+
+/* three inputs which are 1 bit each */
+input a0;
+input b0;
+input c0;/* carry in */
+
+/* two outputs which are 1 bit each */
+output s0;/* sum */
+output c1;/* carry out */
+
+assign s0 = a0^b0^c0;
+assign c1 = (a0&b0)|(b0&c0)|(c0&a0);
+
+endmodule // one_bit_adder
+
+
+
+/*Two rail checker for odd parity*/
+module odd_parity_trc_gen(d0,d1,d2,d3,d4,d5,d6,trc0,trc1);
+
+   input d0,d1,d2,d3;
+   input d4,d5,d6;
+
+   output trc0,trc1;
+
+   assign trc0 = d0^d1^d2^d3;
+   assign trc1 = d4^d5^d6;
+
+endmodule // odd_parity_trc_gen
+
+/* inversion MUX */
+module inversion_mux(a0,a1,a2,sel,a_out);
+   input a0,a1,a2;
+   input sel;
+   output [3:0] a_out;
+
+   wire  [`WIDTH:0] a_bus;
+   wire [`WIDTH:0]  a_inv_bus;
+
+   assign a_bus[0] = a0;
+   assign a_bus[1] = a1;
+   assign a_bus[2] = a2;
+
+   //a_bus = {a2,a1,a0};
+   
+
+   assign a_inv_bus = ~a_bus;
+   
+   //assign a_out = ((!sel) & (a_bus)) | ((sel) & (a_inv_bus));
+   assign a_out = (sel == 1'b1) ? a_inv_bus :
+                  (sel == 1'b0) ? a_bus     :
+                  4'bz;
+   
+
+
+endmodule // inversion_mux
+
+
+//dumb alu
+module dumb_alu(a0,a1,a2,b0,b1,b2,c0,c1,c2,x0,x1,x2,xc);
+   input a0,a1,a2,b0,b1,b2;
+   input c0,c1,c2;
+   output x0,x1,x2;
+   output xc;
+   
+
+   wire [`WIDTH:0] adder_in0,adder_in1;
+   wire [`WIDTH:0] adder_out;
+   wire            sub_sel;
+   
+   
+   
+
+   
+   inversion_mux im0(a0,a1,a2,c2,adder_in0);
+   inversion_mux im1(b0,b1,b2,c1,adder_in1);
+   
+   assign sub_sel = ((!c0)&(c1)&(!c2))|((!c0)&(!c1)&(c2));
+
+   rc rc0(adder_in0,adder_in1,sub_sel,adder_out,xc);
+
+   assign x0 = adder_out[0];
+   assign x1 = adder_out[1];
+   assign x2 = adder_out[2];
+
+endmodule // dumb_alu
+
+
+   

@@ -1,0 +1,39 @@
+{
+    "CompUnits": {
+        "amcQw_d": {
+            "mod": "...MASTER...",
+            "out": "objs/amcQw_d.o",
+            "checksum": 4294967295,
+            "bytes": 7093,
+            "mode": 4
+        },
+        "IiEPd_d": {
+            "archive": "archive.95/_11733_archive_1.a",
+            "mod": "rc_tb",
+            "out": "IiEPd_d.o",
+            "checksum": 4294967295,
+            "bytes": 25554,
+            "mode": 4
+        }
+    },
+    "Modules": {
+        "...MASTER...": {},
+        "rc_tb": {
+            "Compiled": "Yes",
+            "Compiled Times": 1
+        }
+    },
+    "reusePaths": {},
+    "ObjArchives": [
+        {
+            "objects": [
+                [
+                    "IiEPd_d.o",
+                    25554
+                ]
+            ],
+            "archive": "archive.95/_11733_archive_1.a",
+            "size": 25554
+        }
+    ]
+}

@@ -1,0 +1,443 @@
+.model main
+.inputs C00 C10 C20 PAR0 B00 B10 B20 A00 A10 A20 
+.outputs Y00 Y10 XC0 Y20 XE00 XE10 X00 X10 X20 YE00 YC0 YE10 
+.subckt trc bb0=output_trc<1>0 ab0=input_trc0<1>0 a0=input_trc0<0>0 b0=output_trc<0>0 xb0=XE10 x0=XE00 
+.subckt dumb_alu_tmr a00=A00 a10=A10 a20=A20 c00=C00 c10=C10 c20=C20 b00=B00 b10=B10 b20=B20 xc0=xc_out0 x00=x_out<0>0 x10=x_out<1>0 x20=x_out<2>0 
+.subckt output_trc a00=x_out<0>0 aco0=xc_out0 a10=x_out<1>0 a20=x_out<2>0 bco0=yc_out0 b00=y_out<0>0 b10=y_out<1>0 b20=y_out<2>0 xb0=output_trc<1>0 x0=output_trc<0>0 
+.subckt dumb_alu_tmr a00=A00 a10=A10 a20=A20 c00=C00 c10=C10 c20=C20 b00=B00 b10=B10 b20=B20 xc0=yc_out0 x00=y_out<0>0 x10=y_out<1>0 x20=y_out<2>0 
+.subckt parity_onehot_trc a00=A00 p0=PAR0 a10=A10 a20=A20 c00=C00 c10=C10 c20=C20 b00=B00 b10=B10 b20=B20 xb0=input_trc0<1>0 x0=input_trc0<0>0 
+.subckt parity_onehot_trc a00=A00 p0=PAR0 a10=A10 a20=A20 c00=C00 c10=C10 c20=C20 b00=B00 b10=B10 b20=B20 xb0=input_trc1<1>0 x0=input_trc1<0>0 
+.subckt trc bb0=output_trc<1>0 ab0=input_trc1<1>0 a0=input_trc1<0>0 b0=output_trc<0>0 xb0=YE10 x0=YE00 
+.names x_out<0>0 X0$raw_n00 
+1 1
+.names x_out<1>0 X1$raw_n10 
+1 1
+.names x_out<2>0 X2$raw_n20 
+1 1
+.names xc_out0 XC$raw_n30 
+1 1
+.names y_out<0>0 Y0$raw_n40 
+1 1
+.names y_out<1>0 Y1$raw_n50 
+1 1
+.names y_out<2>0 Y2$raw_n60 
+1 1
+.names yc_out0 YC$raw_n70 
+1 1
+.names Y0$raw_n40 Y00 
+1 1
+.names Y1$raw_n50 Y10 
+1 1
+.names XC$raw_n30 XC0 
+1 1
+.names Y2$raw_n60 Y20 
+1 1
+.names X0$raw_n00 X00 
+1 1
+.names X1$raw_n10 X10 
+1 1
+.names X2$raw_n20 X20 
+1 1
+.names YC$raw_n70 YC0 
+1 1
+.end
+.model trc
+.inputs bb0 ab0 a0 b0 
+.outputs xb0 x0 
+.names a0 b0 _n100 
+11 1
+.names ab0 bb0 _n110 
+11 1
+.names _n120_b _n120
+0 1
+.names _n100 _n110 _n120_b 
+00 1
+.names _n120 x$raw_nf0 
+1 1
+.names a0 bb0 _n140 
+11 1
+.names ab0 b0 _n150 
+11 1
+.names _n160_b _n160
+0 1
+.names _n140 _n150 _n160_b 
+00 1
+.names _n160 xb$raw_n130 
+1 1
+.names xb$raw_n130 xb0 
+1 1
+.names x$raw_nf0 x0 
+1 1
+.end
+.model dumb_alu_tmr
+.inputs a00 a10 a20 c00 c10 c20 b00 b10 b20 
+.outputs xc0 x00 x10 x20 
+.subckt maj3_voter_3bit c<0>0=alu2_out<0>0 c<1>0=alu2_out<1>0 c<2>0=alu2_out<2>0 a<0>0=alu0_out<0>0 a<1>0=alu0_out<1>0 a<2>0=alu0_out<2>0 b<0>0=alu1_out<0>0 b<1>0=alu1_out<1>0 b<2>0=alu1_out<2>0 v<0>0=x_out<0>0 v<1>0=x_out<1>0 v<2>0=x_out<2>0 
+.subckt dumb_alu a00=a00 a10=a10 a20=a20 c00=c00 c10=c10 c20=c20 b00=b00 b10=b10 b20=b20 xc0=alu0_co0 x00=alu0_out<0>0 x10=alu0_out<1>0 x20=alu0_out<2>0 
+.subckt dumb_alu a00=a00 a10=a10 a20=a20 c00=c00 c10=c10 c20=c20 b00=b00 b10=b10 b20=b20 xc0=alu1_co0 x00=alu1_out<0>0 x10=alu1_out<1>0 x20=alu1_out<2>0 
+.subckt maj3_voter_1bit c0=alu2_co0 a0=alu0_co0 b0=alu1_co0 v0=xc0 
+.subckt dumb_alu a00=a00 a10=a10 a20=a20 c00=c00 c10=c10 c20=c20 b00=b00 b10=b10 b20=b20 xc0=alu2_co0 x00=alu2_out<0>0 x10=alu2_out<1>0 x20=alu2_out<2>0 
+.names x_out<2>0 x2$raw_n80 
+1 1
+.names x_out<1>0 x1$raw_n90 
+1 1
+.names x_out<0>0 x0$raw_na0 
+1 1
+.names x0$raw_na0 x00 
+1 1
+.names x1$raw_n90 x10 
+1 1
+.names x2$raw_n80 x20 
+1 1
+.end
+.model maj3_voter_3bit
+.inputs c<0>0 c<1>0 c<2>0 a<0>0 a<1>0 a<2>0 b<0>0 b<1>0 b<2>0 
+.outputs v<0>0 v<1>0 v<2>0 
+.subckt maj3_voter_1bit c0=c<0>0 a0=a<0>0 b0=b<0>0 v0=v<0>0 
+.subckt maj3_voter_1bit c0=c<1>0 a0=a<1>0 b0=b<1>0 v0=v<1>0 
+.subckt maj3_voter_1bit c0=c<2>0 a0=a<2>0 b0=b<2>0 v0=v<2>0 
+.end
+.model maj3_voter_1bit
+.inputs c0 a0 b0 
+.outputs v0 
+.names a0 b0 _n250 
+11 1
+.names a0 c0 _n260 
+11 1
+.names _n270_b _n270
+0 1
+.names _n250 _n260 _n270_b 
+00 1
+.names b0 c0 _n280 
+11 1
+.names _n290_b _n290
+0 1
+.names _n270 _n280 _n290_b 
+00 1
+.names _n290 v$raw_n240 
+1 1
+.names v$raw_n240 v0 
+1 1
+.end
+.model dumb_alu
+.inputs a00 a10 a20 c00 c10 c20 b00 b10 b20 
+.outputs xc0 x00 x10 x20 
+.subckt rc cin0=sub_sel0 a<0>0=adder_in0<0>0 a<1>0=adder_in0<1>0 a<2>0=adder_in0<2>0 b<0>0=adder_in1<0>0 b<1>0=adder_in1<1>0 b<2>0=adder_in1<2>0 s<0>0=adder_out<0>0 s<1>0=adder_out<1>0 s<2>0=adder_out<2>0 cout0=xc0 
+.subckt inversion_mux a00=a00 a10=a10 a20=a20 sel0=_n8b0 a_out<0>0=adder_in0<0>0 a_out<1>0=adder_in0<1>0 a_out<2>0=adder_in0<2>0 
+.subckt inversion_mux a00=b00 a10=b10 a20=b20 sel0=_n8f0 a_out<0>0=adder_in1<0>0 a_out<1>0=adder_in1<1>0 a_out<2>0=adder_in1<2>0 
+.names c10 _n880 
+0 1
+.names c20 _n880 _n890 
+11 1
+.names c00 _n8a0 
+0 1
+.names _n890 _n8a0 _n8b0 
+11 1
+.names c20 _n8c0 
+0 1
+.names _n8c0 c10 _n8d0 
+11 1
+.names c00 _n8e0 
+0 1
+.names _n8d0 _n8e0 _n8f0 
+11 1
+.names c00 _n910 
+0 1
+.names _n910 c10 _n920 
+11 1
+.names c20 _n930 
+0 1
+.names _n920 _n930 _n940 
+11 1
+.names c00 _n950 
+0 1
+.names c10 _n960 
+0 1
+.names _n950 _n960 _n970 
+11 1
+.names _n970 c20 _n980 
+11 1
+.names _n990_b _n990
+0 1
+.names _n940 _n980 _n990_b 
+00 1
+.names _n990 sub_sel$raw_n900 
+1 1
+.names adder_out<0>0 x0$raw_n9a0 
+1 1
+.names adder_out<1>0 x1$raw_n9b0 
+1 1
+.names adder_out<2>0 x2$raw_n9c0 
+1 1
+.names sub_sel$raw_n900 sub_sel0 
+1 1
+.names x0$raw_n9a0 x00 
+1 1
+.names x1$raw_n9b0 x10 
+1 1
+.names x2$raw_n9c0 x20 
+1 1
+.end
+.model rc
+.inputs cin0 a<0>0 a<1>0 a<2>0 b<0>0 b<1>0 b<2>0 
+.outputs s<0>0 s<1>0 s<2>0 cout0 
+.subckt one_bit_adder a00=a<0>0 c00=cin0 b00=b<0>0 c10=t10 s00=s<0>0 
+.subckt one_bit_adder a00=a<1>0 c00=t10 b00=b<1>0 c10=t20 s00=s<1>0 
+.subckt one_bit_adder a00=a<2>0 c00=t20 b00=b<2>0 c10=cout0 s00=s<2>0 
+.end
+.model one_bit_adder
+.inputs a00 c00 b00 
+.outputs c10 s00 
+.names a00 b00 _n180 
+01 1
+10 1
+.names _n180 c00 _n190 
+01 1
+10 1
+.names _n190 s0$raw_n170 
+1 1
+.names a00 b00 _n1b0 
+11 1
+.names b00 c00 _n1c0 
+11 1
+.names _n1d0_b _n1d0
+0 1
+.names _n1b0 _n1c0 _n1d0_b 
+00 1
+.names c00 a00 _n1e0 
+11 1
+.names _n1f0_b _n1f0
+0 1
+.names _n1d0 _n1e0 _n1f0_b 
+00 1
+.names _n1f0 c1$raw_n1a0 
+1 1
+.names c1$raw_n1a0 c10 
+1 1
+.names s0$raw_n170 s00 
+1 1
+.end
+.model inversion_mux
+.inputs a00 a10 a20 sel0 
+.outputs a_out<0>0 a_out<1>0 a_out<2>0 
+.names a00 a_bus$raw_n5a<0>0 
+1 1
+.names _n5b0
+0
+.names a10 a_bus$raw_n5c<1>0 
+1 1
+.names _n5d0
+0
+.names a20 a_bus$raw_n5e<2>0 
+1 1
+.names _n5f0
+0
+.names a_bus<0>0 _n61<0>0 
+0 1
+.names a_bus<1>0 _n61<1>0 
+0 1
+.names a_bus<2>0 _n61<2>0 
+0 1
+.names _n61<0>0 a_inv_bus$raw_n60<0>0 
+1 1
+.names _n61<1>0 a_inv_bus$raw_n60<1>0 
+1 1
+.names _n61<2>0 a_inv_bus$raw_n60<2>0 
+1 1
+.names _n640
+1
+.names sel0 _n640 _n650 
+01 1
+10 1
+.names _n650 _n630 
+0 1
+.names _n680
+0
+.names sel0 _n680 _n690 
+01 1
+10 1
+.names _n690 _n670 
+0 1
+.names _n6b<0>0
+0
+.names _n6b<1>0
+0
+.names _n6b<2>0
+0
+.names _n6b<3>0
+0
+.names _n6b<0>0 _n6d<0>0 
+1 1
+.names _n6b<1>0 _n6d<1>0 
+1 1
+.names _n6b<2>0 _n6d<2>0 
+1 1
+.names a_bus<0>0 _n6d<0>0 _n670 _n6c<0>0 
+1-1 1
+-10 1
+.names a_bus<1>0 _n6d<1>0 _n670 _n6c<1>0 
+1-1 1
+-10 1
+.names a_bus<2>0 _n6d<2>0 _n670 _n6c<2>0 
+1-1 1
+-10 1
+.names a_inv_bus<0>0 _n6c<0>0 _n630 _n71<0>0 
+1-1 1
+-10 1
+.names a_inv_bus<1>0 _n6c<1>0 _n630 _n71<1>0 
+1-1 1
+-10 1
+.names a_inv_bus<2>0 _n6c<2>0 _n630 _n71<2>0 
+1-1 1
+-10 1
+.names _n71<0>0 a_out$raw_n62<0>0 
+1 1
+.names _n71<1>0 a_out$raw_n62<1>0 
+1 1
+.names _n71<2>0 a_out$raw_n62<2>0 
+1 1
+.names a_bus$raw_n5a<0>0 a_bus<0>0 
+1 1
+.names a_bus$raw_n5c<1>0 a_bus<1>0 
+1 1
+.names a_bus$raw_n5e<2>0 a_bus<2>0 
+1 1
+.names a_out$raw_n62<0>0 a_out<0>0 
+1 1
+.names a_out$raw_n62<1>0 a_out<1>0 
+1 1
+.names a_out$raw_n62<2>0 a_out<2>0 
+1 1
+.names a_inv_bus$raw_n60<0>0 a_inv_bus<0>0 
+1 1
+.names a_inv_bus$raw_n60<1>0 a_inv_bus<1>0 
+1 1
+.names a_inv_bus$raw_n60<2>0 a_inv_bus<2>0 
+1 1
+.end
+.model output_trc
+.inputs a00 aco0 a10 a20 bco0 b00 b10 b20 
+.outputs xb0 x0 
+.subckt trc bb0=_ne0 ab0=_nd0 a0=a20 b0=aco0 xb0=ab2co_trc<1>0 x0=ab2co_trc<0>0 
+.subckt trc bb0=_nc0 ab0=_nb0 a0=a00 b0=a10 xb0=ab01_trc<1>0 x0=ab01_trc<0>0 
+.subckt trc bb0=ab2co_trc<1>0 ab0=ab01_trc<1>0 a0=ab01_trc<0>0 b0=ab2co_trc<0>0 xb0=xb0 x0=x0 
+.names b00 _nb0 
+0 1
+.names b10 _nc0 
+0 1
+.names b20 _nd0 
+0 1
+.names bco0 _ne0 
+0 1
+.end
+.model parity_onehot_trc
+.inputs a00 p0 a10 a20 c00 c10 c20 b00 b10 b20 
+.outputs xb0 x0 
+.subckt trc bb0=ctrl_trc<1>0 ab0=trc_par<1>0 a0=trc_par<0>0 b0=ctrl_trc<0>0 xb0=xb0 x0=x0 
+.subckt one_hot2two_rail_conv d00=c00 d10=c10 d20=c20 y0=ctrl_trc_y<0>0 xb0=ctrl_trc_x<1>0 yb0=ctrl_trc_y<1>0 x0=ctrl_trc_x<0>0 
+.subckt trc bb0=ctrl_trc_y<1>0 ab0=ctrl_trc_x<1>0 a0=ctrl_trc_x<0>0 b0=ctrl_trc_y<0>0 xb0=ctrl_trc<1>0 x0=ctrl_trc<0>0 
+.subckt odd_parity_trc_gen d00=a00 d10=a10 d20=a20 d30=b00 d40=b10 d50=b20 d60=p0 trc10=trc_par<1>0 trc00=trc_par<0>0 
+.end
+.model one_hot2two_rail_conv
+.inputs d00 d10 d20 
+.outputs y0 xb0 yb0 x0 
+.names d10 _n3d0 
+0 1
+.names d00 _n3d0 _n3e0 
+11 1
+.names d20 _n3f0 
+0 1
+.names _n3e0 _n3f0 _n400 
+11 1
+.names d00 _n410 
+0 1
+.names d10 _n420 
+0 1
+.names _n410 _n420 _n430 
+11 1
+.names _n430 d20 _n440 
+11 1
+.names _n450_b _n450
+0 1
+.names _n400 _n440 _n450_b 
+00 1
+.names _n450 x$raw_n3c0 
+1 1
+.names d00 _n470 
+0 1
+.names _n470 d10 _n480 
+11 1
+.names d20 _n490 
+0 1
+.names _n480 _n490 _n4a0 
+11 1
+.names _n4a0 xb$raw_n460 
+1 1
+.names d10 _n4c0 
+0 1
+.names d00 _n4c0 _n4d0 
+11 1
+.names d20 _n4e0 
+0 1
+.names _n4d0 _n4e0 _n4f0 
+11 1
+.names d00 _n500 
+0 1
+.names _n500 d10 _n510 
+11 1
+.names d20 _n520 
+0 1
+.names _n510 _n520 _n530 
+11 1
+.names _n540_b _n540
+0 1
+.names _n4f0 _n530 _n540_b 
+00 1
+.names _n540 y$raw_n4b0 
+1 1
+.names d00 _n560 
+0 1
+.names d10 _n570 
+0 1
+.names _n560 _n570 _n580 
+11 1
+.names _n580 d20 _n590 
+11 1
+.names _n590 yb$raw_n550 
+1 1
+.names y$raw_n4b0 y0 
+1 1
+.names xb$raw_n460 xb0 
+1 1
+.names yb$raw_n550 yb0 
+1 1
+.names x$raw_n3c0 x0 
+1 1
+.end
+.model odd_parity_trc_gen
+.inputs d00 d10 d20 d30 d40 d50 d60 
+.outputs trc10 trc00 
+.names d00 d10 _n360 
+01 1
+10 1
+.names _n360 d20 _n370 
+01 1
+10 1
+.names _n370 d30 _n380 
+01 1
+10 1
+.names _n380 trc0$raw_n350 
+1 1
+.names d40 d50 _n3a0 
+01 1
+10 1
+.names _n3a0 d60 _n3b0 
+01 1
+10 1
+.names _n3b0 trc1$raw_n390 
+1 1
+.names trc1$raw_n390 trc10 
+1 1
+.names trc0$raw_n350 trc00 
+1 1
+.end

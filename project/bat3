@@ -1,0 +1,8 @@
+read_blif project.blif
+read_library lib2
+map
+print_map_stats
+fault_tolerance
+203
+
+

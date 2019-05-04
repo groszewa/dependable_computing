@@ -1,0 +1,44 @@
+{
+    "ObjArchives": [
+        {
+            "archive": "archive.38/_18754_archive_1.a",
+            "objects": [
+                [
+                    "d4a98_d.o",
+                    29638
+                ]
+            ],
+            "size": 29638
+        }
+    ],
+    "Modules": {
+        "output_mismatch": {},
+        "alu": {},
+        "...MASTER...": {},
+        "one_bit_adder": {},
+        "parity_onehot_trc": {},
+        "output_trc": {},
+        "project_tb": {
+            "Compiled": "Yes",
+            "Compiled Times": 3
+        }
+    },
+    "CompUnits": {
+        "amcQw_d": {
+            "checksum": 4294967295,
+            "mod": "...MASTER...",
+            "out": "objs/amcQw_d.o",
+            "bytes": 7543,
+            "mode": 4
+        },
+        "d4a98_d": {
+            "archive": "archive.38/_18754_archive_1.a",
+            "checksum": 4294967295,
+            "mod": "project_tb",
+            "out": "d4a98_d.o",
+            "bytes": 29638,
+            "mode": 4
+        }
+    },
+    "reusePaths": {}
+}

@@ -1,0 +1,110 @@
+{
+    "stat": {
+        "quadSpeed": 34471.262835044676,
+        "ru_self_cgstart": {
+            "ru_utime_sec": 0.040993000000000002,
+            "ru_stime_sec": 0.026995000000000002,
+            "ru_nvcsw": 205,
+            "ru_maxrss_kb": 49080,
+            "ru_minflt": 11277,
+            "ru_majflt": 0,
+            "ru_nivcsw": 18
+        },
+        "nMops": 1488,
+        "ru_childs_cgstart": {
+            "ru_utime_sec": 0.0,
+            "ru_stime_sec": 0.0,
+            "ru_nvcsw": 0,
+            "ru_maxrss_kb": 0,
+            "ru_minflt": 0,
+            "ru_majflt": 0,
+            "ru_nivcsw": 0
+        },
+        "nQuads": 517,
+        "totalObjSize": 96926,
+        "ru_self_end": {
+            "ru_utime_sec": 0.055990999999999999,
+            "ru_stime_sec": 0.032994000000000002,
+            "ru_nvcsw": 288,
+            "ru_maxrss_kb": 56752,
+            "ru_minflt": 13548,
+            "ru_majflt": 0,
+            "ru_nivcsw": 35
+        },
+        "ru_childs_end": {
+            "ru_utime_sec": 0.0,
+            "ru_stime_sec": 0.0,
+            "ru_nvcsw": 0,
+            "ru_maxrss_kb": 0,
+            "ru_minflt": 0,
+            "ru_majflt": 0,
+            "ru_nivcsw": 0
+        },
+        "mopSpeed": 99213.228430457413,
+        "mop/quad": 2.8781431334622822,
+        "CodeGen(%)": 26.786447821971386,
+        "outputSizePerQuad": 187.0,
+        "Frontend(%)": 73.213552178028621
+    },
+    "MlibObjs": {},
+    "CurCompileModules": [
+        "...MASTER...",
+        "rc_tb"
+    ],
+    "PrevCompiledModules": {
+        "rc_tb": {
+            "IiEPd_d": {
+                "checksum": 4294967295,
+                "bytes": 25653,
+                "archive": "archive.95/_11733_archive_1.a",
+                "mod": "rc_tb",
+                "mode": 4,
+                "out": "IiEPd_d.o"
+            }
+        },
+        "...MASTER...": {
+            "amcQw_d": {
+                "checksum": 4294967295,
+                "bytes": 7093,
+                "mod": "...MASTER...",
+                "out": "objs/amcQw_d.o",
+                "mode": 4
+            }
+        }
+    },
+    "CompileProcesses": [
+        "cgproc.11733.json"
+    ],
+    "NameTable": {
+        "rc_tb": [
+            "rc_tb",
+            "IiEPd",
+            "module"
+        ],
+        "...MASTER...": [
+            "SIM",
+            "amcQw",
+            "module"
+        ]
+    },
+    "CurCompileUdps": {},
+    "CompileStrategy": "fullobj",
+    "PEModules": [],
+    "LVLData": [
+        "SIM"
+    ],
+    "SIMBData": {
+        "out": "amcQwB.o",
+        "bytes": 64279
+    },
+    "Misc": {
+        "cwd": "/home/ecelrc/students/agroszewski/dependable_computing/project",
+        "csrc": "csrc",
+        "default_output_dir": "csrc",
+        "csrc_abs": "/home/ecelrc/students/agroszewski/dependable_computing/project/csrc",
+        "daidir": "simv.daidir",
+        "daidir_abs": "/home/ecelrc/students/agroszewski/dependable_computing/project/simv.daidir",
+        "archive_dir": "archive.95"
+    },
+    "CompileStatus": "Successful"
+}

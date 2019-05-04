@@ -1,0 +1,8 @@
+#copile module with testbench
+vcs -full64 rc.v rc_tb.v
+
+#run testbench
+./simv
+
+#open waveform viewer
+dve -full64 &

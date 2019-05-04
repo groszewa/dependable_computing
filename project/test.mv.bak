@@ -1,0 +1,776 @@
+# ./vl2mv test.v modules.v 
+# version: 1.4
+# date:    22:00:59 11/25/2017 (CST)
+.model rc 
+# I/O ports
+.outputs s<0> s<1> s<2> 
+.inputs cin
+.inputs a<0> a<1> a<2> 
+.outputs cout
+.inputs b<0> b<1> b<2> 
+.subckt one_bit_adder a1 a0=a<0>  b0=b<0>  c0=cin  s0=s<0>  c1=t1  
+.subckt one_bit_adder a2 a0=a<1>  b0=b<1>  c0=t1  s0=s<1>  c1=t2  
+.subckt one_bit_adder a3 a0=a<2>  b0=b<2>  c0=t2  s0=s<2>  c1=cout  
+# conflict arbitrators
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
+.model one_bit_adder 
+# I/O ports
+.inputs a0
+.inputs c0
+.outputs c1
+.outputs s0
+.inputs b0
+# assign s0  = a0  ^ b0  ^ c0 
+# a0  ^ b0 
+.names a0 b0 _n1
+.def 0
+0 1 1
+1 0 1
+# a0  ^ b0  ^ c0 
+.names _n1 c0 _n2
+.def 0
+0 1 1
+1 0 1
+.names _n2 s0$raw_n0
+- =_n2
+# assign c1  = (a0  & b0 ) | (b0  & c0 ) | (c0  & a0 )
+# a0  & b0 
+.names a0 b0 _n4
+.def 0
+1 1 1
+# b0  & c0 
+.names b0 c0 _n5
+.def 0
+1 1 1
+# (a0  & b0 ) | (b0  & c0 )
+.names _n4 _n5 _n6
+.def 1
+0 0 0
+# c0  & a0 
+.names c0 a0 _n7
+.def 0
+1 1 1
+# (a0  & b0 ) | (b0  & c0 ) | (c0  & a0 )
+.names _n6 _n7 _n8
+.def 1
+0 0 0
+.names _n8 c1$raw_n3
+- =_n8
+# conflict arbitrators
+.names c1$raw_n3  c1
+0 0
+1 1
+.names s0$raw_n0  s0
+0 0
+1 1
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
+.model odd_parity_trc_gen 
+# I/O ports
+.inputs d0
+.inputs d1
+.inputs d2
+.inputs d3
+.inputs d4
+.outputs trc1
+.inputs d5
+.outputs trc0
+.inputs d6
+# assign trc0  = d0  ^ d1  ^ d2  ^ d3 
+# d0  ^ d1 
+.names d0 d1 _na
+.def 0
+0 1 1
+1 0 1
+# d0  ^ d1  ^ d2 
+.names _na d2 _nb
+.def 0
+0 1 1
+1 0 1
+# d0  ^ d1  ^ d2  ^ d3 
+.names _nb d3 _nc
+.def 0
+0 1 1
+1 0 1
+.names _nc trc0$raw_n9
+- =_nc
+# assign trc1  = d4  ^ d5  ^ d6 
+# d4  ^ d5 
+.names d4 d5 _ne
+.def 0
+0 1 1
+1 0 1
+# d4  ^ d5  ^ d6 
+.names _ne d6 _nf
+.def 0
+0 1 1
+1 0 1
+.names _nf trc1$raw_nd
+- =_nf
+# conflict arbitrators
+.names trc1$raw_nd  trc1
+0 0
+1 1
+.names trc0$raw_n9  trc0
+0 0
+1 1
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
+.model one_hot2two_rail_conv 
+# I/O ports
+.outputs y
+.inputs d0
+.inputs d1
+.inputs d2
+.outputs xb
+.outputs yb
+.outputs x
+# assign x  = (d0  & ~d1  & ~d2 ) | (~d0  & ~d1  & d2 )
+.names d1 _n11
+0 1  
+1 0  
+# d0  & ~d1 
+.names d0 _n11 _n12
+.def 0
+1 1 1
+.names d2 _n13
+0 1  
+1 0  
+# d0  & ~d1  & ~d2 
+.names _n12 _n13 _n14
+.def 0
+1 1 1
+.names d0 _n15
+0 1  
+1 0  
+.names d1 _n16
+0 1  
+1 0  
+# ~d0  & ~d1 
+.names _n15 _n16 _n17
+.def 0
+1 1 1
+# ~d0  & ~d1  & d2 
+.names _n17 d2 _n18
+.def 0
+1 1 1
+# (d0  & ~d1  & ~d2 ) | (~d0  & ~d1  & d2 )
+.names _n14 _n18 _n19
+.def 1
+0 0 0
+.names _n19 x$raw_n10
+- =_n19
+# assign xb  = (~d0  & d1  & ~d2 )
+.names d0 _n1b
+0 1  
+1 0  
+# ~d0  & d1 
+.names _n1b d1 _n1c
+.def 0
+1 1 1
+.names d2 _n1d
+0 1  
+1 0  
+# ~d0  & d1  & ~d2 
+.names _n1c _n1d _n1e
+.def 0
+1 1 1
+.names _n1e xb$raw_n1a
+- =_n1e
+# assign y  = (d0  & ~d1  & ~d2 ) | (~d0  & d1  & ~d2 )
+.names d1 _n20
+0 1  
+1 0  
+# d0  & ~d1 
+.names d0 _n20 _n21
+.def 0
+1 1 1
+.names d2 _n22
+0 1  
+1 0  
+# d0  & ~d1  & ~d2 
+.names _n21 _n22 _n23
+.def 0
+1 1 1
+.names d0 _n24
+0 1  
+1 0  
+# ~d0  & d1 
+.names _n24 d1 _n25
+.def 0
+1 1 1
+.names d2 _n26
+0 1  
+1 0  
+# ~d0  & d1  & ~d2 
+.names _n25 _n26 _n27
+.def 0
+1 1 1
+# (d0  & ~d1  & ~d2 ) | (~d0  & d1  & ~d2 )
+.names _n23 _n27 _n28
+.def 1
+0 0 0
+.names _n28 y$raw_n1f
+- =_n28
+# assign yb  = (~d0  & ~d1  & d2 )
+.names d0 _n2a
+0 1  
+1 0  
+.names d1 _n2b
+0 1  
+1 0  
+# ~d0  & ~d1 
+.names _n2a _n2b _n2c
+.def 0
+1 1 1
+# ~d0  & ~d1  & d2 
+.names _n2c d2 _n2d
+.def 0
+1 1 1
+.names _n2d yb$raw_n29
+- =_n2d
+# conflict arbitrators
+.names y$raw_n1f  y
+0 0
+1 1
+.names xb$raw_n1a  xb
+0 0
+1 1
+.names yb$raw_n29  yb
+0 0
+1 1
+.names x$raw_n10  x
+0 0
+1 1
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
+.model trc 
+# I/O ports
+.outputs xb
+.inputs bb
+.inputs ab
+.inputs a
+.outputs x
+.inputs b
+# assign x  = (a  & b ) | (ab  & bb )
+# a  & b 
+.names a b _n2f
+.def 0
+1 1 1
+# ab  & bb 
+.names ab bb _n30
+.def 0
+1 1 1
+# (a  & b ) | (ab  & bb )
+.names _n2f _n30 _n31
+.def 1
+0 0 0
+.names _n31 x$raw_n2e
+- =_n31
+# assign xb  = (a  & bb ) | (ab  & b )
+# a  & bb 
+.names a bb _n33
+.def 0
+1 1 1
+# ab  & b 
+.names ab b _n34
+.def 0
+1 1 1
+# (a  & bb ) | (ab  & b )
+.names _n33 _n34 _n35
+.def 1
+0 0 0
+.names _n35 xb$raw_n32
+- =_n35
+# conflict arbitrators
+.names xb$raw_n32  xb
+0 0
+1 1
+.names x$raw_n2e  x
+0 0
+1 1
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
+.model parity_onehot_trc 
+# I/O ports
+.inputs a0
+.inputs p
+.inputs a1
+.outputs xb
+.inputs a2
+.inputs c0
+.inputs c1
+.inputs c2
+.inputs b0
+.inputs b1
+.outputs x
+.inputs b2
+.subckt odd_parity_trc_gen parity_trc d0=a0  d1=a1  d2=a2  d3=b0  d4=b1  d5=b2  d6=p  trc0=trc_par<0>  trc1=trc_par<1>  
+.subckt one_hot2two_rail_conv oh_trc_gen d0=c0  d1=c1  d2=c2  x=ctrl_trc_x<0>  xb=ctrl_trc_x<1>  y=ctrl_trc_y<0>  yb=ctrl_trc_y<1>  
+.subckt trc oh_trc a=ctrl_trc_x<0>  ab=ctrl_trc_x<1>  b=ctrl_trc_y<0>  bb=ctrl_trc_y<1>  x=ctrl_trc<0>  xb=ctrl_trc<1>  
+.subckt trc final_trc a=trc_par<0>  ab=trc_par<1>  b=ctrl_trc<0>  bb=ctrl_trc<1>  x=x  xb=xb  
+# conflict arbitrators
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
+.model output_trc 
+# I/O ports
+.inputs a0
+.inputs aco
+.inputs a1
+.outputs xb
+.inputs a2
+.inputs bco
+.inputs b0
+.inputs b1
+.outputs x
+.inputs b2
+.names b0 _n36
+0 1  
+1 0  
+.names b1 _n37
+0 1  
+1 0  
+.subckt trc trc_ab01 a=a0  ab=_n36  b=a1  bb=_n37  x=ab01_trc<0>  xb=ab01_trc<1>  
+.names b2 _n38
+0 1  
+1 0  
+.names bco _n39
+0 1  
+1 0  
+.subckt trc trc_ab2co a=a2  ab=_n38  b=aco  bb=_n39  x=ab2co_trc<0>  xb=ab2co_trc<1>  
+.subckt trc trc_final a=ab01_trc<0>  ab=ab01_trc<1>  b=ab2co_trc<0>  bb=ab2co_trc<1>  x=x  xb=xb  
+# conflict arbitrators
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
+.model inversion_mux 
+# I/O ports
+.inputs a0
+.inputs a1
+.inputs a2
+.outputs a_out<0> a_out<1> a_out<2> 
+.inputs sel
+# assign a_bus [0] = a0 
+.names a0 a_bus$raw_n3a<0>
+- =a0
+.names _n3b
+0
+# assign a_bus [1] = a1 
+.names a1 a_bus$raw_n3c<1>
+- =a1
+.names _n3d
+0
+# assign a_bus [2] = a2 
+.names a2 a_bus$raw_n3e<2>
+- =a2
+.names _n3f
+0
+# assign a_inv_bus  = ~a_bus 
+.names a_bus<0> _n41<0>
+0 1  
+1 0  
+.names a_bus<1> _n41<1>
+0 1  
+1 0  
+.names a_bus<2> _n41<2>
+0 1  
+1 0  
+.names _n41<0> a_inv_bus$raw_n40<0>
+- =_n41<0>
+.names _n41<1> a_inv_bus$raw_n40<1>
+- =_n41<1>
+.names _n41<2> a_inv_bus$raw_n40<2>
+- =_n41<2>
+# assign a_out  = (sel  == 'b1) ? a_inv_bus  : (sel  == 'b0) ? a_bus  : 'b000z
+.names _n44
+1
+# sel  == 'b1
+.names sel _n44 _n45
+.def 0
+0 1 1
+1 0 1
+.names _n45 _n43
+0 1  
+1 0  
+.names _n48
+0
+# sel  == 'b0
+.names sel _n48 _n49
+.def 0
+0 1 1
+1 0 1
+.names _n49 _n47
+0 1  
+1 0  
+.names _n4b<0>
+0
+.names _n4b<1>
+0
+.names _n4b<2>
+0
+.names _n4b<3>
+0
+# (sel  == 'b0) ? a_bus  : 'b000z
+.names _n4b<0> _n4d<0>
+- =_n4b<0>
+.names _n4b<1> _n4d<1>
+- =_n4b<1>
+.names _n4b<2> _n4d<2>
+- =_n4b<2>
+.names a_bus<0> _n4d<0> _n47 _n4c<0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names a_bus<1> _n4d<1> _n47 _n4c<1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names a_bus<2> _n4d<2> _n47 _n4c<2>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+# (sel  == 'b1) ? a_inv_bus  : (sel  == 'b0) ? a_bus  : 'b000z
+.names a_inv_bus<0> _n4c<0> _n43 _n51<0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names a_inv_bus<1> _n4c<1> _n43 _n51<1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names a_inv_bus<2> _n4c<2> _n43 _n51<2>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n51<0> a_out$raw_n42<0>
+- =_n51<0>
+.names _n51<1> a_out$raw_n42<1>
+- =_n51<1>
+.names _n51<2> a_out$raw_n42<2>
+- =_n51<2>
+# conflict arbitrators
+.names a_bus$raw_n3a<0>  a_bus<0>
+- =a_bus$raw_n3a<0>
+.names a_bus$raw_n3c<1>  a_bus<1>
+- =a_bus$raw_n3c<1>
+.names a_bus$raw_n3e<2>  a_bus<2>
+- =a_bus$raw_n3e<2>
+.names a_out$raw_n42<0>  a_out<0>
+- =a_out$raw_n42<0>
+.names a_out$raw_n42<1>  a_out<1>
+- =a_out$raw_n42<1>
+.names a_out$raw_n42<2>  a_out<2>
+- =a_out$raw_n42<2>
+.names a_inv_bus$raw_n40<0>  a_inv_bus<0>
+- =a_inv_bus$raw_n40<0>
+.names a_inv_bus$raw_n40<1>  a_inv_bus<1>
+- =a_inv_bus$raw_n40<1>
+.names a_inv_bus$raw_n40<2>  a_inv_bus<2>
+- =a_inv_bus$raw_n40<2>
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
+.model dumb_alu 
+# I/O ports
+.inputs a0
+.inputs a1
+.inputs a2
+.outputs xc
+.inputs c0
+.inputs c1
+.inputs c2
+.outputs x0
+.inputs b0
+.outputs x1
+.inputs b1
+.outputs x2
+.inputs b2
+.subckt inversion_mux im0 a0=a0  a1=a1  a2=a2  sel=c2  a_out<0>=adder_in0<0> a_out<1>=adder_in0<1> a_out<2>=adder_in0<2>  
+.subckt inversion_mux im1 a0=b0  a1=b1  a2=b2  sel=c1  a_out<0>=adder_in1<0> a_out<1>=adder_in1<1> a_out<2>=adder_in1<2>  
+# assign sub_sel  = ((!c0 ) & (c1 ) & (!c2 )) | ((!c0 ) & (!c1 ) & (c2 ))
+.names c0 _n56
+0 1  
+1 0  
+# (!c0 ) & (c1 )
+.names _n56 c1 _n57
+.def 0
+1 1 1
+.names c2 _n58
+0 1  
+1 0  
+# (!c0 ) & (c1 ) & (!c2 )
+.names _n57 _n58 _n59
+.def 0
+1 1 1
+.names c0 _n5a
+0 1  
+1 0  
+.names c1 _n5b
+0 1  
+1 0  
+# (!c0 ) & (!c1 )
+.names _n5a _n5b _n5c
+.def 0
+1 1 1
+# (!c0 ) & (!c1 ) & (c2 )
+.names _n5c c2 _n5d
+.def 0
+1 1 1
+# ((!c0 ) & (c1 ) & (!c2 )) | ((!c0 ) & (!c1 ) & (c2 ))
+.names _n59 _n5d _n5e
+.def 1
+0 0 0
+.names _n5e sub_sel$raw_n55
+- =_n5e
+.subckt rc rc0 a<0>=adder_in0<0> a<1>=adder_in0<1> a<2>=adder_in0<2>  b<0>=adder_in1<0> b<1>=adder_in1<1> b<2>=adder_in1<2>  cin=sub_sel  s<0>=adder_out<0> s<1>=adder_out<1> s<2>=adder_out<2>  cout=xc  
+# assign x0  = adder_out [0]
+.names adder_out<0> x0$raw_n5f
+- =adder_out<0>
+# assign x1  = adder_out [1]
+.names adder_out<1> x1$raw_n60
+- =adder_out<1>
+# assign x2  = adder_out [2]
+.names adder_out<2> x2$raw_n61
+- =adder_out<2>
+# conflict arbitrators
+.names sub_sel$raw_n55  sub_sel
+0 0
+1 1
+.names x0$raw_n5f  x0
+0 0
+1 1
+.names x1$raw_n60  x1
+0 0
+1 1
+.names x2$raw_n61  x2
+0 0
+1 1
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
+.model maj3_voter_1bit 
+# I/O ports
+.inputs c
+.outputs v
+.inputs a
+.inputs b
+# assign v  = (a  & b ) | (a  & c ) | (b  & c )
+# a  & b 
+.names a b _n63
+.def 0
+1 1 1
+# a  & c 
+.names a c _n64
+.def 0
+1 1 1
+# (a  & b ) | (a  & c )
+.names _n63 _n64 _n65
+.def 1
+0 0 0
+# b  & c 
+.names b c _n66
+.def 0
+1 1 1
+# (a  & b ) | (a  & c ) | (b  & c )
+.names _n65 _n66 _n67
+.def 1
+0 0 0
+.names _n67 v$raw_n62
+- =_n67
+# conflict arbitrators
+.names v$raw_n62  v
+0 0
+1 1
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
+.model maj3_voter_3bit 
+# I/O ports
+.inputs c<0> c<1> c<2> 
+.outputs v<0> v<1> v<2> 
+.inputs a<0> a<1> a<2> 
+.inputs b<0> b<1> b<2> 
+.subckt maj3_voter_1bit mv0 a=a<0>  b=b<0>  c=c<0>  v=v<0>  
+.subckt maj3_voter_1bit mv1 a=a<1>  b=b<1>  c=c<1>  v=v<1>  
+.subckt maj3_voter_1bit mv2 a=a<2>  b=b<2>  c=c<2>  v=v<2>  
+# conflict arbitrators
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
+.model dumb_alu_tmr 
+# I/O ports
+.inputs a0
+.inputs a1
+.inputs a2
+.outputs xc
+.inputs c0
+.inputs c1
+.inputs c2
+.outputs x0
+.inputs b0
+.outputs x1
+.inputs b1
+.outputs x2
+.inputs b2
+.subckt dumb_alu alu0 a0=a0  a1=a1  a2=a2  b0=b0  b1=b1  b2=b2  c0=c0  c1=c1  c2=c2  x0=alu0_out<0>  x1=alu0_out<1>  x2=alu0_out<2>  xc=alu0_co  
+.subckt dumb_alu alu1 a0=a0  a1=a1  a2=a2  b0=b0  b1=b1  b2=b2  c0=c0  c1=c1  c2=c2  x0=alu1_out<0>  x1=alu1_out<1>  x2=alu1_out<2>  xc=alu1_co  
+.subckt dumb_alu alu2 a0=a0  a1=a1  a2=a2  b0=b0  b1=b1  b2=b2  c0=c0  c1=c1  c2=c2  x0=alu2_out<0>  x1=alu2_out<1>  x2=alu2_out<2>  xc=alu2_co  
+.subckt maj3_voter_3bit data_voter a<0>=alu0_out<0> a<1>=alu0_out<1> a<2>=alu0_out<2>  b<0>=alu1_out<0> b<1>=alu1_out<1> b<2>=alu1_out<2>  c<0>=alu2_out<0> c<1>=alu2_out<1> c<2>=alu2_out<2>  v<0>=x_out<0> v<1>=x_out<1> v<2>=x_out<2>  
+.subckt maj3_voter_1bit co_voter a=alu0_co  b=alu1_co  c=alu2_co  v=xc  
+# assign x2  = x_out [2]
+.names x_out<2> x2$raw_n68
+- =x_out<2>
+# assign x1  = x_out [1]
+.names x_out<1> x1$raw_n69
+- =x_out<1>
+# assign x0  = x_out [0]
+.names x_out<0> x0$raw_n6a
+- =x_out<0>
+# conflict arbitrators
+.names x0$raw_n6a  x0
+0 0
+1 1
+.names x1$raw_n69  x1
+0 0
+1 1
+.names x2$raw_n68  x2
+0 0
+1 1
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
+.model main 
+# I/O ports
+.outputs Y0
+.inputs C0
+.outputs Y1
+.outputs XC
+.inputs C1
+.outputs Y2
+.inputs C2
+.inputs PAR
+.outputs XE0
+.outputs XE1
+.outputs X0
+.inputs B0
+.outputs X1
+.inputs B1
+.outputs X2
+.inputs B2
+.outputs YE0
+.outputs YC
+.inputs A0
+.outputs YE1
+.inputs A1
+.inputs A2
+.subckt dumb_alu_tmr alu_tmr0 a0=A0  a1=A1  a2=A2  b0=B0  b1=B1  b2=B2  c0=C0  c1=C1  c2=C2  x0=x_out<0>  x1=x_out<1>  x2=x_out<2>  xc=xc_out  
+.subckt dumb_alu_tmr alu_tmr1 a0=A0  a1=A1  a2=A2  b0=B0  b1=B1  b2=B2  c0=C0  c1=C1  c2=C2  x0=y_out<0>  x1=y_out<1>  x2=y_out<2>  xc=yc_out  
+.subckt parity_onehot_trc input_trc_gen0 a0=A0  a1=A1  a2=A2  b0=B0  b1=B1  b2=B2  p=PAR  c0=C0  c1=C1  c2=C2  x=input_trc0<0>  xb=input_trc0<1>  
+.subckt parity_onehot_trc input_trc_gen1 a0=A0  a1=A1  a2=A2  b0=B0  b1=B1  b2=B2  p=PAR  c0=C0  c1=C1  c2=C2  x=input_trc1<0>  xb=input_trc1<1>  
+.subckt output_trc output_trc_gen0 a0=x_out<0>  a1=x_out<1>  a2=x_out<2>  aco=xc_out  b0=y_out<0>  b1=y_out<1>  b2=y_out<2>  bco=yc_out  x=output_trc<0>  xb=output_trc<1>  
+.subckt trc final_trc_gen0 a=input_trc0<0>  ab=input_trc0<1>  b=output_trc<0>  bb=output_trc<1>  x=XE0  xb=XE1  
+.subckt trc final_trc_gen1 a=input_trc1<0>  ab=input_trc1<1>  b=output_trc<0>  bb=output_trc<1>  x=YE0  xb=YE1  
+# assign X0  = x_out [0]
+.names x_out<0> X0$raw_n6b
+- =x_out<0>
+# assign X1  = x_out [1]
+.names x_out<1> X1$raw_n6c
+- =x_out<1>
+# assign X2  = x_out [2]
+.names x_out<2> X2$raw_n6d
+- =x_out<2>
+# assign XC  = xc_out 
+.names xc_out XC$raw_n6e
+- =xc_out
+# assign Y0  = y_out [0]
+.names y_out<0> Y0$raw_n6f
+- =y_out<0>
+# assign Y1  = y_out [1]
+.names y_out<1> Y1$raw_n70
+- =y_out<1>
+# assign Y2  = y_out [2]
+.names y_out<2> Y2$raw_n71
+- =y_out<2>
+# assign YC  = yc_out 
+.names yc_out YC$raw_n72
+- =yc_out
+# conflict arbitrators
+.names Y0$raw_n6f  Y0
+0 0
+1 1
+.names Y1$raw_n70  Y1
+0 0
+1 1
+.names XC$raw_n6e  XC
+0 0
+1 1
+.names Y2$raw_n71  Y2
+0 0
+1 1
+.names X0$raw_n6b  X0
+0 0
+1 1
+.names X1$raw_n6c  X1
+0 0
+1 1
+.names X2$raw_n6d  X2
+0 0
+1 1
+.names YC$raw_n72  YC
+0 0
+1 1
+# non-blocking assignments 
+# latches
+# quasi-continuous assignment
+.end
+
+
